@@ -1,60 +1,144 @@
-# Sample Assignment:
-> Name:  {name}
-> GitHub Account: {account}
+# Assignment:  My First Assignment
+### Name: 
+### GitHub Account: 
+
 ---
+## Overview
+The goal of this assignment is:
+  1. to provide you with a little bit of exposure to a markdown language, and
+  1. to ensure you understand the mechanics of submitting document assignments.
 
-This is the starter file for all document submissions.  All documents are to be presented using the markdown (MD) format.
+### Directions:
 
-For more information of the markdown (MD) format see:  
+Provide a response to all items that have been marked as needing a response. 
+  1. For single-line responses, an HTML comment tag `(<!-- response -->)` has been added.
+     * Your response should be placed to the left of this HTML comment tag.
+  1. For multi-line responses, ensure your answer is placed in between the block markers.
+
+In each of your responses note that spacing is very important to ensure your document is rendered correctly on the web. You should review the final formatted document via, e.g., One Markdown, prior to final submission.
+
+In this assignment, fake answers have been provided. You must replace the provided answers with your own answers.
+
+For more information about the markdown (MD) format see:
+
   1. [The Markdown Guide](https://www.markdownguide.org)
-  1. [A Cheat sheet](file://$HOME/classes/comp122/reference/markdown-cheat-sheet.md) 
+  1. [A Cheat sheet](file://$HOME/classes/comp122/reference/markdown-cheat-sheet.md)
 
 
-### Section One
-1. What is today's date:
-   *                                                                     <!-- response -->
-
+---
+#### Section One
+1. Enumerate your top four favorite subjects in college:
+   1. Intro to Sarcasm                                                        <!-- response -->
+   1. Advance Microsurgery                                                    <!-- response -->
+   1. Procrastination Studies                                                 <!-- response -->
+   <!-- 
+        A '1. ' introduces an ordered list.  
+        To add the fourth subject, simply add a line to the list starting with '1. '. 
+        The Markdown viewer will automatically assigned the appropriate line number. 
+        Also note that positioning of all the '1. 's above; they all must begin
+        in the same column. 
+   -->
  
-1. Provide the text for the preamble of the US Constitution:
-   *                                                                     <!-- response -->
 
-### Section Two
-1. In the following code block, provide the commands used to create the assignment.md file
-   ```response
- 
+1. What is your major?
+   > Basket weaving                                                           <!-- response -->
+   <!-- 
+        Place your response after the first '> '.  
+        A '> ' introduces a block quote.  
+        Also note that the '> ' is positioned directly under the first character
+        after the '1. ' above.  This is important!
+   -->
 
+
+1. Provide a list of possible positions you would like to obtain after graduation.
+   * Bottle washer                                                            <!-- response -->
+   * Prone                                                                    <!-- response -->
+   * Phrenologist                                                             <!-- response -->
+   * Soda Jerk                                                                <!-- response -->
+   * Knocker-up                                                               <!-- response -->
+  <!-- 
+       This is an example of an unordered list.  
+       An unordered list can begin with either '* ' or '- '.  
+       Feel free to add and delete response lines as needed.
+  -->
+
+#### Section Two
+1. What is your primary reason for taking COMP122?
+   > I'm forced to take it, because it is required!                           <!-- response -->
+
+1. What is the most important thing you want to get out of COMP122?
+   > Plenty of sleep, please bore me!                                         <!-- response -->
+
+1. What is your criteria for success for COMP122?
+   > I will consider this class to be a success if and only if I              <!-- response -->
+     am able to improve my Java coding skills. I want to be an                <!-- response -->
+     Application Developer and there is no need for me to waste               <!-- response -->
+     my time to learn anything else. I want to be a one-trick pony.           <!-- response -->
+                                                                              <!-- response -->
+   <!-- The above is an example of a multi-line response. -->
+   <!-- Note that a respons tag must be assiciated with each line. -->
+   <!-- Feel free to add or remove additional response lines as needed. -->
+
+
+1. What one thing can I do to help ensure you are successful in this class?
+   * Pizza, and plenty of it!                                                 <!-- response -->
+
+1. What one thing can you do to help ensure you are successful in this class?
+   * Kick back and enjoy the show!                                            <!-- response -->
+
+#### Section Three
+1. Modify the following Java method, `add4`, to include a fourth formal parameter that is added to the sum.
+
+   ```java response
+   static int add4(int a, int b, int c) {                                     
+     int sum=0;
+
+     sum = a + b + c;
+
+     return sum;
+   }
    ```
-   <!-- There is no need to have response tags within a code block. -->
+   <!-- 
+        The three ticks ('`') opens up a code block. You can also include
+        the tag (e.g., java) that identifies how to render the code.
+        All the code must be between the two sets of 3-ticks, and the code
+        must indented to the column in which the three ticks begin.
+        The "response" tag must be present to be include in your response key.
+   -->
 
-### Section Three
 
+1. Perform the following mathematical addition.  Replace each 'x' with the appropriate digit.  Also write your final anwser in the approrpate location:
+
+   ```response
+         xxxx 
+         0013 
+       + 0005 
+       ------
+         xxxx 
+
+   Final Answer:  
+   ```
+
+   <!-- 
+        This is a seconde example of a multi-line response block.
+   -->
+
+
+1. Update the following table by replacing 'x' with the correct value.
 
    <!-- response start -->
 
-   | A  | B  | C  | Output|
+   | A  | B  | C  | A+B+C |
    |----|----|----|-------|
-   | 0  | 0  | 0  |   1   |
-   | 0  | 0  | 1  |   0   |
-   | 0  | 1  | 0  |   0   |
-   | 0  | 1  | 1  |   0   |
-   | 1  | 0  | 0  |   0   |
-   | 1  | 0  | 1  |   1   |
-   | 1  | 1  | 0  |   1   |
-   | 1  | 1  | 1  |   0   |
+   | 1  | 2  | 0  |   x   |
+   | 3  | 4  | x  |   8   |
+   | 2  | x  | 2  |   6   |
+   | x  | 1  | 1  |  10   |
 
    <!-- response end -->
 
-### Section Four
-
-1. Enumerate and briefly describe the steps performed to execution an instruction:
-   1. Fetch: Read the next instruction from memory.                       <!-- response -->
-   1.                                                                     <!-- response -->
-   1.                                                                     <!-- response -->
-   1.                                                                     <!-- response -->
-   1.                                                                     <!-- response -->
-   1.                                                                     <!-- response -->
-   <!-- Add or remove additional response lines as needed. -->
-
-
-
-
+   <!-- 
+        This is an example of a multi-line response block.
+        Everything between the "response start" and "response end" is included
+        in the answer key.
+   -->

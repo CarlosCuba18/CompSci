@@ -14,6 +14,6 @@ sed -n -e "s/[[:blank:]]*$//" \
        -e '/^#/i\
 '                       \
        -e '/^#/p'       \
-       -e '/```response/,/```/p'   \
+       -e '/```.*response/,/```/p'   \
        -e "/${TAG} start/,/${TAG} end/p" \
        -e "/${TAG}/s/^${ANSWER} *${TAG}.*/\1/p" 
