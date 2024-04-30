@@ -1,8 +1,8 @@
 # Assignment:  My First Assignment
-### Name: 
-### GitHub Account: 
-
+> Name:  {name}
+> GitHub Account: {account}
 ---
+
 ## Overview
 The goal of this assignment is:
   1. to provide you with a little bit of exposure to a markdown language, and

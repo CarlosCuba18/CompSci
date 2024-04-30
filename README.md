@@ -4,7 +4,7 @@ These are the general directions to all assignments that require the student to 
 
 ## Additional Instructions for the First Assignment
 
-If this is the first assignment, refer to [firstAssignment.md](firstAssignment.md) for additional instructions.
+If this is the first assignment, refer to [README_firstAssignment.md](README_firstAssignment.md) for additional instructions.
 
 ## To Get Started on this Assignment
   1. Accept this assignment via the link provided by the Professor.
