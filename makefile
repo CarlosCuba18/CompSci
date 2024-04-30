@@ -79,7 +79,7 @@ all:
 	@echo
 
 
-response_key:
+response_key: ${SUBMISSION} 
 	@echo ---------------------------------
 	@echo Press \"RETURN\" to review your responses:
 	@echo 
