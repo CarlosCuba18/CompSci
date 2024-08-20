@@ -80,7 +80,7 @@ In class, the professor will review each of these steps and provide additional i
 
 
 ## Joining the comp122-f24 Classroom
-  1. Click on the following assignment link: https://classroom.github.com/a/3Oe57wgq
+  1. Click on the following assignment link: https://classroom.github.com/a/5mXbyUv_
   1. Join the comp122-f24 classroom.
      - if your email address is not listed, STOP and notify the Professor.
   1. Accept the assignment.
@@ -94,21 +94,21 @@ In class, the professor will review each of these steps and provide additional i
      cd ~/classes/comp122/deliverables
      ```
   1. Use the Assignment's Invitation URL to accept the assignment.
-     - For this assignment, the URL is: https://classroom.github.com/a/3Oe57wgq
+     - For this assignment, the URL is: https://classroom.github.com/a/5mXbyUv_
      - All Invitations URL are recorded in the "assignments.md" file.
 
-  1. Click on the URL that is associated with your assignment repository. The URL should be of the form: <br />  https://github.com/COMP122/01-first-assignment-{account}
+  1. Click on the URL that is associated with your assignment repository. The URL should be of the form: <br />  https://github.com/COMP122/02-first-MD-assignment-{account}
 
 
   1. Obtain the git URL for this assignment: <br/>
      - Click on the green "Code" button.
      - Select "SSH" menu tab.
      - Copy the ssh-style URL.
-     This URL should look like: `git@github.com:COMP122/01-first-assignment-{account}`
+     This URL should look like: `git@github.com:COMP122/02-first-MD-assignment-{account}`
 
   1. Clone this repository to your computer, e.g., 
      ```
-     git clone git@github.com:COMP122/01-first-assignment-{account}.git
+     git clone git@github.com:COMP122/02-first-MD-assignment-{account}.git
      ```
      Remember that you need to replace the substring "{account}" with your GitHub account name. (See the URL you obtained from the previous step.)
 
