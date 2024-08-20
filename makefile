@@ -13,8 +13,9 @@
 #   1. The tag has been pushed to the origin
 #   1. The commit date of the global tag must be on or BEFORE the DUE_DATE
 
-BRANCH=main
-MIN_COMMITS=6
+BRANCHES   ?=
+BRANCH     ?= main
+MIN_COMMITS = 6
 
 #########################################################################################----
 # Variable Definitions associated with SUBMISSION
