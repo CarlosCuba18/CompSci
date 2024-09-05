@@ -11,7 +11,7 @@
   cp assignment.md submission.md
   git add submission.md
   subl submission.md
-  git commit -m 'Starting the assignment.'
+  git commit -m '{comment}'
   git pull ; git push
   ```
 
@@ -22,7 +22,7 @@
   for(( ; ; )) ; do 
     subl submission.md
     make response_key
-    git commit -m 'insert message' submission.md
+    git commit -m '{comment}' submission.md
     make validate
     git pull ; git push
   done

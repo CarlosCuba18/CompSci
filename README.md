@@ -35,7 +35,7 @@ If this is the first assignment, refer to [README_firstAssignment.md](README_fir
      `git add submission.md`
 
   1. Commit this file to your local repository with a message: 
-     `git commit -m 'starting the assignment'`
+     `git commit -m '{coment}'`
 
   1. Run the command `make response_key`, to see your responses so far.
 
@@ -58,7 +58,7 @@ If this is the first assignment, refer to [README_firstAssignment.md](README_fir
      subl submission.md
      make response_key
      git add submission.md
-     git commit -m 'some message' submission.md
+     git commit -m '{message}' submission.md
      git pull ; git push
      ```
 
