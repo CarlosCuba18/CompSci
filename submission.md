@@ -29,9 +29,9 @@ For more information about the markdown (MD) format see:
 #### Section One
 1. Enumerate your top four favorite subjects in college:
    1. Computer Science                                                        <!-- response -->
-   1. Pre-Calc                                                                <!-- response -->
-   1. Geology                
-   1. English                                                                 <!-- response -->
+   1. Pre-Calc
+   1. Geology                                                                <!-- response -->
+   1. English                                                                <!-- response -->
    <!-- 
         A '1. ' introduces an ordered list.  
         To add the fourth subject, simply add a line to the list starting with '1. '. 
