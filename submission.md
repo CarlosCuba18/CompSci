@@ -115,7 +115,7 @@ For more information about the markdown (MD) format see:
        ------
          0018 
 
-   Final Answer:  
+   Final Answer: 18
    ```
 
    <!-- 
