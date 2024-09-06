@@ -28,8 +28,8 @@ For more information about the markdown (MD) format see:
 ---
 #### Section One
 1. Enumerate your top four favorite subjects in college:
-   1. Computer Science                                                        <!-- response -->
-   1. Pre-Calc
+   1. Computer Science                                                       <!-- response -->
+   1. Pre-Calc                                                               <!-- response -->
    1. Geology                                                                <!-- response -->
    1. English                                                                <!-- response -->
    <!-- 
