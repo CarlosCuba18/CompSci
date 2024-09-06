@@ -42,7 +42,7 @@ For more information about the markdown (MD) format see:
  
 
 1. What is your major?
-   > Basket weaving                                                           <!-- response -->
+   > Computer Science                                                           <!-- response -->
    <!-- 
         Place your response after the first '> '.  
         A '> ' introduces a block quote.  
@@ -52,11 +52,9 @@ For more information about the markdown (MD) format see:
 
 
 1. Provide a list of possible positions you would like to obtain after graduation.
-   * Bottle washer                                                            <!-- response -->
-   * Prone                                                                    <!-- response -->
-   * Phrenologist                                                             <!-- response -->
-   * Soda Jerk                                                                <!-- response -->
-   * Knocker-up                                                               <!-- response -->
+   * Software Tester                                                           <!-- response -->
+   * Software Developer                                                        <!-- response -->
+   * Numerical Analysis                                                        <!-- response -->
   <!-- 
        This is an example of an unordered list.  
        An unordered list can begin with either '* ' or '- '.  
