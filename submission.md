@@ -69,8 +69,8 @@ For more information about the markdown (MD) format see:
    > I want to expand the knowledge for my major.                                <!-- response -->
 
 1. What is your criteria for success for COMP122?
-   >  I want to be able to get all that I can from this class so              <!-- response -->
-      that I can have options for things I'd want to do in the                <!-- response -->
+   > I want to be able to get all that I can from this class so              <!-- response -->
+     that I can have options for things I'd want to do in the                <!-- response -->
      realm of computer science. Also the concept of the shell                 <!-- response -->
      itself is very interesting to me.                                        <!-- response -->
                                                                               <!-- response -->
@@ -80,19 +80,19 @@ For more information about the markdown (MD) format see:
 
 
 1. What one thing can I do to help ensure you are successful in this class?
-   * Pizza, and plenty of it!                                                 <!-- response -->
+   * To have patience with me because it takes a while for me to get a concept.                                                 <!-- response -->
 
 1. What one thing can you do to help ensure you are successful in this class?
-   * Kick back and enjoy the show!                                            <!-- response -->
+   * I will try to attend all the classes and take notes that help me understand the fundamentals of the concepts.                                           <!-- response -->
 
 #### Section Three
 1. Modify the following Java method, `add4`, to include a fourth formal parameter that is added to the sum.
 
    ```java response
-   static int add4(int a, int b, int c) {                                     
+   static int add4(int a, int b, int c, int d) {                                     
      int sum=0;
 
-     sum = a + b + c;
+     sum = a + b + c + d;
 
      return sum;
    }
@@ -109,11 +109,11 @@ For more information about the markdown (MD) format see:
 1. Perform the following mathematical addition.  Replace each 'x' with the appropriate digit.  Also write your final anwser in the approrpate location:
 
    ```response
-         xxxx 
+         0000 
          0013 
        + 0005 
        ------
-         xxxx 
+         0018 
 
    Final Answer:  
    ```
