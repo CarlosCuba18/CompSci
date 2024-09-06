@@ -63,16 +63,16 @@ For more information about the markdown (MD) format see:
 
 #### Section Two
 1. What is your primary reason for taking COMP122?
-   > I'm forced to take it, because it is required!                           <!-- response -->
+   > It is a step in my path for me to understand computer science.              <!-- response -->
 
 1. What is the most important thing you want to get out of COMP122?
-   > Plenty of sleep, please bore me!                                         <!-- response -->
+   > I want to expand the knowledge for my major.                                <!-- response -->
 
 1. What is your criteria for success for COMP122?
-   > I will consider this class to be a success if and only if I              <!-- response -->
-     am able to improve my Java coding skills. I want to be an                <!-- response -->
-     Application Developer and there is no need for me to waste               <!-- response -->
-     my time to learn anything else. I want to be a one-trick pony.           <!-- response -->
+   >  I want to be able to get all that I can from this class so              <!-- response -->
+      that I can have options for things I'd want to do in the                <!-- response -->
+     realm of computer science. Also the concept of the shell                 <!-- response -->
+     itself is very interesting to me.                                        <!-- response -->
                                                                               <!-- response -->
    <!-- The above is an example of a multi-line response. -->
    <!-- Note that a respons tag must be assiciated with each line. -->
