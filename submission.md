@@ -129,10 +129,10 @@ For more information about the markdown (MD) format see:
 
    | A  | B  | C  | A+B+C |
    |----|----|----|-------|
-   | 1  | 2  | 0  |   x   |
-   | 3  | 4  | x  |   8   |
-   | 2  | x  | 2  |   6   |
-   | x  | 1  | 1  |  10   |
+   | 1  | 2  | 0  |   3   |
+   | 3  | 4  | 1  |   8   |
+   | 2  | 2  | 2  |   6   |
+   | 8  | 1  | 1  |  10   |
 
    <!-- response end -->
 
