@@ -12,6 +12,12 @@
    5 Points:  Passed Makefile Test (5 points):
   25 Points:  Rendering of .md file (25 points):
   25 Points:  Text Answers (25 points):
+----
+ ${_score} Points:  Total
+
+ASSIGNMENT_02_total="$_score"
+
+
 STUDENT COMMIT HISTORY:
 
 * Due Date: Sep 6 23:59 PDT  -----------------
