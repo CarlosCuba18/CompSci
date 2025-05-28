@@ -12,4 +12,6 @@ public class MyFrame extends JFrame{ //makes MyFrame a child of JFrame, so it ca
 		this.getContentPane().setBackground(Color.blue); //sets color of background
 		//frame.getContentPane().setBackground(new Color(a)); where a is a RGB value OR hex color value	
 	}//end of constructor
+
+	
 }// end of class
