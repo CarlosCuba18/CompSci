@@ -12,7 +12,7 @@ public class MyFrame extends JFrame{ //makes MyFrame a child of JFrame, so it ca
 		this.setVisible(true); //makes it see-able
 		this.getContentPane().setBackground(Color.blue); //sets color of background
 		//all to change image in corner of page
-		ImageIcon image = new ImageIcon("image.png"); //put path of image or name if in same file into argument
+		ImageIcon image = new ImageIcon("picture.png"); //put path of image or name if in same file into argument
 		this.setIconImage(image.getImage()); //changes image in corner
 		//frame.getContentPane().setBackground(new Color(a)); where a is a RGB value OR hex color value	
 			// new Color(0,0,0) makes black (all ranges of 0-255) in order of red,green,blue
