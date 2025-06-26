@@ -5,8 +5,15 @@ import javax.swing.JLabel;
 import javax.swing.border.Border;//border import
 import javax.swing.BorderFactory; //import border factory
 import javax.swing.border.LineBorder;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MyFrame extends JFrame{ //makes MyFrame a child of JFrame, so it can call methods from JFrame
+public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a child of JFrame, so it can call methods from JFrame
+	JButton button;
+
 	MyFrame(){
 	} //end of constructor
 
@@ -66,7 +73,57 @@ public class MyFrame extends JFrame{ //makes MyFrame a child of JFrame, so it ca
 		//label.setBounds(0,0,250,250); //(x,y,dimention,dimention); x,y is starting pt, dimentions are how big it is
 		frame.pack();//automatically adjust frame to things inside label; use this method last after adding everything else (reason why its small lol)
 	}
+	public void makePanel(){
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(null); //gonna learn about layout managers later
+		frame.setVisible(true);
+		frame.setSize(1500,1000);
 
+		JPanel redPanel = new JPanel();
+		redPanel.setBackground(Color.red);
+		redPanel.setBounds(0,0,500,500); //(x,y,width,height)with no layout manager, need to set bounds and locations manually
+		frame.add(redPanel);
+
+		JPanel bluePanel = new JPanel();
+		bluePanel.setBackground(Color.blue);
+		bluePanel.setBounds(500,0,500,500);
+		frame.add(bluePanel);
+
+		JPanel greenPanel = new JPanel();
+		greenPanel.setBackground(Color.green);
+		greenPanel.setBounds(0,500,1000,500);
+		frame.add(greenPanel);
+
+		JLabel label = new JLabel();
+		label.setText("Hello");
+		ImageIcon image = new ImageIcon("picture.png");
+		label.setIcon(image);
+		greenPanel.setLayout(new BorderLayout());
+		label.setVerticalAlignment(JLabel.TOP);
+		label.setHorizontalAlignment(JLabel.CENTER);
+		//label.setBounds(100,100,50,50);
+		greenPanel.add(label);
+}
+
+	public void makeButton(){
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(null);
+		frame.setSize(500,500);
+		frame.setVisible(true);
+
+		button = new JButton(); //needs implement ActionListener
+		button.setBounds(200,100,100,50);
+		frame.add(button);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e){
+		if(e.getSource() == button){
+			System.out.println("Yo");
+		}
+	}
 
 
 
