@@ -8,6 +8,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Font;
 
 
 public class GUIPractice{
@@ -15,5 +18,4 @@ public class GUIPractice{
 		MyFrame myFrame = new MyFrame();
 		myFrame.makeButton();
 	}//end of main method
-
 }// end of class

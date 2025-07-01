@@ -10,9 +10,11 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Font;
 
 public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a child of JFrame, so it can call methods from JFrame
 	JButton button;
+	JLabel lab;
 
 	MyFrame(){
 	} //end of constructor
@@ -114,14 +116,39 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		frame.setVisible(true);
 
 		button = new JButton(); //needs implement ActionListener
-		button.setBounds(200,100,100,50);
+		button.setBounds(100,100,250,100);
+		button.addActionListener(this);
+		/* button.addActionListener(e -> System.out.println("yo")); // lambda expression that doesn't use actionPreformed or implements */
+		button.setText("I'm a button");
+		button.setFocusable(false); //gets rid of border around text
+
+		ImageIcon icon = new ImageIcon("picture.png");
+		//button.setIcon(icon); //puts image on button
+		button.setHorizontalTextPosition(JButton.CENTER);
+		button.setVerticalTextPosition(JButton.BOTTOM);
+		button.setFont(new Font("Comic Sans", Font.BOLD,25));
+		button.setIconTextGap(-10);
+		button.setForeground(Color.blue);
+		button.setBackground(Color.lightGray);
+		button.setBorder(BorderFactory.createEtchedBorder());
+		//button.setEnabled(false); //turns off a button
+
+		lab = new JLabel();
+		lab.setIcon(icon);
+		lab.setBounds(150,250,150,150);
+		lab.setVisible(false);
+		frame.add(lab);
+
+
 		frame.add(button);
 	}
 
+	//used with button
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == button){
-			System.out.println("Yo");
+			//System.out.println("Yo");
+			lab.setVisible(true);
 		}
 	}
 
