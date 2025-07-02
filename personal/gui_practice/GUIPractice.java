@@ -11,11 +11,24 @@ import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
-
+import java.awt.Dimension;
 
 public class GUIPractice{
 	public static void main(String[] args){
 		MyFrame myFrame = new MyFrame();
-		myFrame.makeButton();
+		myFrame.useGridLayout();
 	}//end of main method
 }// end of class
+
+/*
+KEY for methods
+----------
+makeFrame
+makeLabel
+makePanel
+makeButton
+useBorderLayout
+useFlowLayout
+useGridLayout
+LayeredPane
+*/
