@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import javax.swing.JLayeredPane;
 
 /*
 KEY for methods
@@ -26,6 +27,7 @@ useBorderLayout
 useFlowLayout
 useGridLayout
 LayeredPane
+openNewWindow
 */
 
 public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a child of JFrame, so it can call methods from JFrame
@@ -265,7 +267,41 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 	}
 
 	public void LayeredPane(){
+		JFrame frame = new JFrame("Layered Pane");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(500,500);
+		frame.setLayout(null);
 
+		JLayeredPane p1 = new JLayeredPane();
+		p1.setBounds(0,0,500,500);
+		frame.add(p1);
+
+		JLabel label1 = new JLabel();
+		label1.setOpaque(true);
+		label1.setBackground(Color.red);
+		label1.setBounds(50,50,200,200);
+
+		JLabel label2 = new JLabel();
+		label2.setOpaque(true);
+		label2.setBackground(Color.green);
+		label2.setBounds(100,100,200,200);
+
+		JLabel label3 = new JLabel();
+		label3.setOpaque(true);
+		label3.setBackground(Color.blue);
+		label3.setBounds(150,150,200,200);
+
+		// order from bottom to top is Default,Palette,Modal,PopUp,Drag... ex: (JLayeredPane.DEFAULT_LAYER)
+		// can also use wrapper Integer class for vaules
+
+		p1.add(label1, Integer.valueOf(0));
+		p1.add(label2, Integer.valueOf(2));
+		p1.add(label3, Integer.valueOf(1));
+
+		frame.setVisible(true);
+	}
+	public void openNewWindow(){
+		LaunchPage launch = new LaunchPage();
 	}
 
 	//used with button
@@ -276,7 +312,5 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 			lab.setVisible(true);
 		}
 	}
-
-
 
 }// end of class

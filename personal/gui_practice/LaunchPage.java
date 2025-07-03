@@ -17,23 +17,24 @@ import java.awt.GridLayout;
 import javax.swing.JLayeredPane;
 
 
-public class GUIPractice{
-	public static void main(String[] args){
-		MyFrame myFrame = new MyFrame();
-		myFrame.openNewWindow();
-	}//end of main method
-}// end of class
+public class LaunchPage implements ActionListener{
+		JFrame frame = new JFrame();
+		JButton button = new JButton("New Window");
+	public void LaunchPage(){
+			button.setBounds(100,160,200,40);
+			button.setFocusable(false);
+			button.addActionListener(this);
+			frame.add(button);
 
-/*
-KEY for methods
-----------
-makeFrame
-makeLabel
-makePanel
-makeButton
-useBorderLayout
-useFlowLayout
-useGridLayout
-LayeredPane
-openNewWindow
-*/
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setSize(500,500);
+			frame.setLayout(null);
+			frame.setVisible(true);
+	}
+		@Override
+	public void actionPerformed(ActionEvent e){
+		if(e.getSource() == button){
+			NewWindow myWindow = new NewWindow();
+		}
+	}
+}//end of launchpage

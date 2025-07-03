@@ -17,23 +17,19 @@ import java.awt.GridLayout;
 import javax.swing.JLayeredPane;
 
 
-public class GUIPractice{
-	public static void main(String[] args){
-		MyFrame myFrame = new MyFrame();
-		myFrame.openNewWindow();
-	}//end of main method
-}// end of class
+	public class NewWindow{
+		JFrame frame = new JFrame();
+		JLabel label = new JLabel("Hello");
 
-/*
-KEY for methods
-----------
-makeFrame
-makeLabel
-makePanel
-makeButton
-useBorderLayout
-useFlowLayout
-useGridLayout
-LayeredPane
-openNewWindow
-*/
+		NewWindow(){
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setSize(500,500);
+			frame.setLayout(null);
+			frame.setVisible(true);	
+
+			label.setBounds(0,0,100,50);
+			label.setFont(new Font(null,Font.PLAIN,25));
+
+			frame.add(label);
+		}
+	}//end of NewWindow
