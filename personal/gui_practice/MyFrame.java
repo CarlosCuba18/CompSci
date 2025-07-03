@@ -15,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 
 /*
 KEY for methods
@@ -28,6 +29,7 @@ useFlowLayout
 useGridLayout
 LayeredPane
 openNewWindow
+optionPane
 */
 
 public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a child of JFrame, so it can call methods from JFrame
@@ -302,6 +304,28 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 	}
 	public void openNewWindow(){
 		LaunchPage launch = new LaunchPage();
+		//uses LaunchPage and NewWindow files
+	}
+
+	public void optionPane(){
+		//JOptionPane.showMessageDialog(null,"This is some info","Title",JOptionPane.PLAIN_MESSAGE); //(parent component, message,title,message type)
+		//JOptionPane.showMessageDialog(null,"This is some info","Title",JOptionPane.INFORMATION_MESSAGE);
+		//JOptionPane.showMessageDialog(null,"This is some info","Title",JOptionPane.QUESTION_MESSAGE);
+		//JOptionPane.showMessageDialog(null,"This is some info","Title",JOptionPane.WARNING_MESSAGE);
+		//JOptionPane.showMessageDialog(null,"This is some info","Title",JOptionPane.ERROR_MESSAGE);
+
+		//JOptionPane.showConfirmDialog(null,"do you code??","title",JOptionPane.YES_NO_CANCEL_OPTION);
+		//System.out.println(JOptionPane.showConfirmDialog(null,"do you code??","title",JOptionPane.YES_NO_CANCEL_OPTION));
+		//yes=0,no=1,cancel=2,x on corner=-1
+
+		//String name = JOptionPane.showInputDialog("What is your name???");
+		//System.out.println("Hello, " + name + "!");
+
+		String[] options = {"No, You're Awesome", "Thank You", "*blush*"};
+		JOptionPane.showOptionDialog(null,"You are awesome","Secret Message",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE,null,options,0);
+		//(parent component, message, title,option type,message type, icon, options, inital value)
+		//icon replaces message type icon
+		//options can be with array of strings
 	}
 
 	//used with button

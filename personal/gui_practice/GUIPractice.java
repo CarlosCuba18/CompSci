@@ -15,12 +15,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 
 
 public class GUIPractice{
 	public static void main(String[] args){
 		MyFrame myFrame = new MyFrame();
-		myFrame.openNewWindow();
+		myFrame.optionPane();
 	}//end of main method
 }// end of class
 
@@ -36,4 +37,5 @@ useFlowLayout
 useGridLayout
 LayeredPane
 openNewWindow
+optionPane
 */
