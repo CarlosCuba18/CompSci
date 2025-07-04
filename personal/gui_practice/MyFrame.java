@@ -16,6 +16,11 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import java.awt.Image;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 /*
 KEY for methods
@@ -30,11 +35,27 @@ useGridLayout
 LayeredPane
 openNewWindow
 optionPane
+textFields
+checkBoxes
+radioButton
 */
 
 public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a child of JFrame, so it can call methods from JFrame
 	JButton button;
 	JLabel lab;
+
+	JButton textButton;
+	JTextField field;
+
+	JButton checkButton;
+	JCheckBox checkBox;
+	ImageIcon xIcon;
+	ImageIcon checkIcon;
+
+	JRadioButton pizzaButton;
+	JRadioButton burgerButton;
+	JRadioButton hotDogButton;
+
 
 	MyFrame(){
 	} //end of constructor
@@ -327,13 +348,117 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		//icon replaces message type icon
 		//options can be with array of strings
 	}
+	public void textFields(){
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(new FlowLayout());
 
-	//used with button
+		textButton = new JButton("Submit");
+		textButton.addActionListener(this);
+
+		field = new JTextField();
+		field.setPreferredSize(new Dimension(250,40));
+		field.setFont(new Font("Consolas",Font.PLAIN,35));
+		field.setForeground(Color.green);
+		field.setBackground(Color.black);
+		field.setCaretColor(Color.white);
+		field.setText("Username:");
+
+		//field.setEditable(false);
+
+		this.add(textButton);
+		this.add(field);
+		this.pack();
+		this.setVisible(true);
+	}
+	public void checkBoxes(){ //includes how to resize fat images lol
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(new FlowLayout());
+
+		checkButton = new JButton("Submit");
+		checkButton.addActionListener(this);
+
+		xIcon = new ImageIcon("xMark.png");
+		Image newX = xIcon.getImage();
+		Image croppedXImage = newX.getScaledInstance(100,100,Image.SCALE_SMOOTH);
+		xIcon = new ImageIcon(croppedXImage);
+
+		checkIcon = new ImageIcon("check.png");
+		Image newCheck = checkIcon.getImage();
+		Image croppedCheckImage = newCheck.getScaledInstance(100,100,Image.SCALE_SMOOTH);
+		checkIcon = new ImageIcon(croppedCheckImage);
+
+		checkBox = new JCheckBox();
+		checkBox.setText("I'm not a robot");
+		checkBox.setFocusable(false);
+		checkBox.setFont(new Font("Consolas",Font.PLAIN,35));
+		checkBox.setIcon(xIcon);
+		checkBox.setSelectedIcon(checkIcon);
+		
+		this.add(checkButton);
+		this.add(checkBox);
+		this.pack();
+		this.setVisible(true);
+	}
+	public void radioButton(){
+		//group of buttons where only one can be selected at a time
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(new FlowLayout());
+
+		pizzaButton = new JRadioButton("Pizza");
+		burgerButton = new JRadioButton("Burger");
+		hotDogButton = new JRadioButton("Hot Dog");
+
+		ButtonGroup group = new ButtonGroup();
+		group.add(pizzaButton);
+		group.add(burgerButton);
+		group.add(hotDogButton);
+
+		pizzaButton.addActionListener(this);
+		burgerButton.addActionListener(this);
+		hotDogButton.addActionListener(this);
+
+		/*
+		ImageIcon's declared outside method
+		Set it inside method
+		ex:
+		pizzaButton.setIcon(pizzaIcon); // also .setSelectedIcon();
+		*/
+
+		this.add(pizzaButton);
+		this.add(burgerButton);
+		this.add(hotDogButton);
+		this.pack();
+		this.setVisible(true);
+	}
+	public void comboBox{
+		//add to methods key list 
+	}
+
+
+	//used with button, text field, radio buttons,
 	@Override
 	public void actionPerformed(ActionEvent e){
-		if(e.getSource() == button){
+		if(e.getSource() == button){ //for button
 			//System.out.println("Yo");
 			lab.setVisible(true);
+		}
+		if(e.getSource() == textButton){ //for text field
+			System.out.println("Welcome " + field.getText());
+			textButton.setEnabled(false);
+			field.setEditable(false);
+			this.dispose();
+		}
+		if(e.getSource() == checkButton){
+			System.out.println(checkBox.isSelected());
+		}
+		if(e.getSource() == pizzaButton){
+			System.out.println("You ordered Pizza");
+		}
+		else if(e.getSource() == burgerButton){
+			System.out.println("You ordered Burger");
+		}
+		else if(e.getSource() == hotDogButton){
+			System.out.println("You ordered Hot Dog");		
 		}
 	}
 

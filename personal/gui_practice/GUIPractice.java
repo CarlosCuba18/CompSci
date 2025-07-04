@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 public class GUIPractice{
 	public static void main(String[] args){
 		MyFrame myFrame = new MyFrame();
-		myFrame.optionPane();
+		myFrame.radioButton();
 	}//end of main method
 }// end of class
 
@@ -38,4 +38,7 @@ useGridLayout
 LayeredPane
 openNewWindow
 optionPane
+textFields
+checkBoxes
+radioButton
 */
