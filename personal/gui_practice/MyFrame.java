@@ -16,11 +16,15 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
+import java.awt.Image;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import java.awt.Image;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.JSlider;
 
 /*
 KEY for methods
@@ -38,23 +42,32 @@ optionPane
 textFields
 checkBoxes
 radioButton
+comboBox
+slider
 */
 
 public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a child of JFrame, so it can call methods from JFrame
+	//button
 	JButton button;
 	JLabel lab;
 
+	//text field
 	JButton textButton;
 	JTextField field;
 
+	//check box
 	JButton checkButton;
 	JCheckBox checkBox;
 	ImageIcon xIcon;
 	ImageIcon checkIcon;
 
+	//radio button
 	JRadioButton pizzaButton;
 	JRadioButton burgerButton;
 	JRadioButton hotDogButton;
+
+	//combo box
+	JComboBox combo;
 
 
 	MyFrame(){
@@ -430,8 +443,30 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		this.pack();
 		this.setVisible(true);
 	}
-	public void comboBox{
-		//add to methods key list 
+	public void comboBox(){
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(new FlowLayout());	
+
+		String[] animals = {"Dog","Cat","Bird"};
+
+		combo = new JComboBox(animals);
+		combo.addActionListener(this);
+		combo.setEditable(true);
+		combo.addItem("Horse");
+		combo.insertItemAt("Pig",0);
+		combo.setSelectedIndex(0);
+		combo.removeItem("Cat");
+		combo.removeItemAt(1);
+		combo.removeAllItems();
+		System.out.println("This is number of items in list: " + combo.getItemCount());
+
+		this.add(combo);
+		this.pack();
+		this.setVisible(true);
+	}
+	public void slider(){
+		//uses SliderDemo
+		SliderDemo sliderDemo = new SliderDemo();
 	}
 
 
@@ -459,6 +494,10 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		}
 		else if(e.getSource() == hotDogButton){
 			System.out.println("You ordered Hot Dog");		
+		}
+		if(e.getSource()==combo){
+			//System.out.println(combo.getSelectedItem());
+			System.out.println(combo.getSelectedIndex());
 		}
 	}
 

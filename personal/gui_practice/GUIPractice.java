@@ -16,12 +16,17 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-
+import javax.swing.JComboBox;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
+import java.awt.Image;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 
 public class GUIPractice{
 	public static void main(String[] args){
 		MyFrame myFrame = new MyFrame();
-		myFrame.radioButton();
+		myFrame.slider();
 	}//end of main method
 }// end of class
 
@@ -41,4 +46,6 @@ optionPane
 textFields
 checkBoxes
 radioButton
+comboBox
+slider
 */
