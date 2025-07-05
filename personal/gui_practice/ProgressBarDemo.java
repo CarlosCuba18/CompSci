@@ -25,31 +25,44 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+import javax.swing.JProgressBar;
 
-public class GUIPractice{
-	public static void main(String[] args){
-		MyFrame myFrame = new MyFrame();
-		myFrame.progressBar();
-	}//end of main method
-}// end of class
+public class ProgressBarDemo{
+	JFrame frame = new JFrame();
+	JProgressBar bar = new JProgressBar(0,500); //can be (min num, max num) or ()
 
-/*
-KEY for methods
-----------
-makeFrame
-makeLabel
-makePanel
-makeButton
-useBorderLayout
-useFlowLayout
-useGridLayout
-LayeredPane
-openNewWindow
-optionPane
-textFields
-checkBoxes
-radioButton
-comboBox
-slider
-progressBar
-*/
+	ProgressBarDemo(){
+		bar.setValue(0);
+		bar.setBounds(0,0,450,50);
+		bar.setStringPainted(true);
+		bar.setFont(new Font("MV Boli", Font.BOLD,25));
+		bar.setForeground(Color.red);
+		bar.setBackground(Color.black);
+
+
+
+		frame.add(bar);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(500,500);
+		frame.setLayout(null);
+		frame.setVisible(true);
+
+		fill();
+	}
+	public void fill(){
+		int count = 500;
+		while(count > 0){
+			bar.setValue(count);
+			try{
+				Thread.sleep(50); //(millisecs = 0.001)	
+			}
+			catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			count--;
+		}//end while
+		bar.setString("Dead :<");
+	}
+
+}

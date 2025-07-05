@@ -25,6 +25,7 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 
 public class SliderDemo implements ChangeListener{
 
@@ -40,7 +41,7 @@ SliderDemo(){
 	slider = new JSlider(0,100,50); //(min num, max num, starting pt)
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	slider.setPreferredSize(new Dimension(400,200));//(width,height)
+	slider.setPreferredSize(new Dimension(400,200)); //(width,height)
 	slider.setPaintTicks(true);
 	slider.setMinorTickSpacing(10);
 
@@ -48,18 +49,26 @@ SliderDemo(){
 	slider.setMajorTickSpacing(25);
 
 	slider.setPaintLabels(true);
+	slider.setFont(new Font("MV Boli",Font.PLAIN,15));
+	label.setFont(new Font("MV Boli",Font.PLAIN,25));
+
+
+	slider.setOrientation(SwingConstants.VERTICAL);
+
+	label.setText("*C = " + slider.getValue());
+
+	slider.addChangeListener(this);
 
 	panel.add(slider);
 	panel.add(label);
 	frame.add(panel);
 	frame.setSize(500,500);
 	frame.setVisible(true);
-
 }
 
 @Override
 public void stateChanged(ChangeEvent e){
-
+	label.setText("*C = " + slider.getValue());
 }
 
 }//end of SliderDemo

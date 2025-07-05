@@ -25,6 +25,8 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants; 
+
 
 /*
 KEY for methods
@@ -72,6 +74,12 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 
 	MyFrame(){
 	} //end of constructor
+
+
+	public void slider(){
+		//uses SliderDemo
+		SliderDemo sliderDemo = new SliderDemo();
+	}
 
 	public void makeFrame(){
 		//JFrame frame = new JFrame(); //creates new frame; in this case MyFrame extends Jframe so no object needs to be created
@@ -457,21 +465,21 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		combo.setSelectedIndex(0);
 		combo.removeItem("Cat");
 		combo.removeItemAt(1);
-		combo.removeAllItems();
+		combo.removeAllItems(); 
 		System.out.println("This is number of items in list: " + combo.getItemCount());
 
 		this.add(combo);
 		this.pack();
 		this.setVisible(true);
 	}
-	public void slider(){
-		//uses SliderDemo
-		SliderDemo sliderDemo = new SliderDemo();
+	public void progressBar(){ 
+		//uses ProgressBarDemo (omg ignore the misspelling)
+		ProgressBarDemo prog = new ProgressBarDemo();
 	}
 
 
-	//used with button, text field, radio buttons,
-	@Override
+	//used with button, text field, radio buttons, 
+	@Override 
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == button){ //for button
 			//System.out.println("Yo");
