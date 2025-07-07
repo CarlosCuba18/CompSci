@@ -29,7 +29,7 @@ import javax.swing.JSlider;
 public class GUIPractice{
 	public static void main(String[] args){
 		MyFrame myFrame = new MyFrame();
-		myFrame.progressBar();
+		myFrame.menuBar();
 	}//end of main method
 }// end of class
 
@@ -52,4 +52,5 @@ radioButton
 comboBox
 slider
 progressBar
+menuBar
 */

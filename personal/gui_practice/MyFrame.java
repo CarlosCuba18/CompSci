@@ -476,6 +476,10 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		//uses ProgressBarDemo (omg ignore the misspelling)
 		ProgressBarDemo prog = new ProgressBarDemo();
 	}
+	public void menuBar(){
+		//uses MenuBarDemo
+		MenuBarDemo menu = new MenuBarDemo();
+	}
 
 
 	//used with button, text field, radio buttons, 
