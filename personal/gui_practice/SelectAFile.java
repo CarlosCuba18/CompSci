@@ -31,35 +31,40 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.KeyEvent;
+import javax.swing.JFileChooser;
+import java.io.File;
 
-public class GUIPractice{
-	public static void main(String[] args){
-		MyFrame myFrame = new MyFrame();
-		myFrame.keyListener();
-	}//end of main method
-}// end of class
+public class SelectAFile extends JFrame implements ActionListener{
 
-/*
-KEY for methods
-----------
-makeFrame
-makeLabel
-makePanel
-makeButton
-useBorderLayout
-useFlowLayout
-useGridLayout
-LayeredPane
-openNewWindow
-optionPane
-textFields
-checkBoxes
-radioButton
-comboBox
-slider
-progressBar
-menuBar
-selectAFile
-colorChooser
-keyListener
-*/
+	JButton button;
+	
+	SelectAFile(){
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(new FlowLayout());
+
+		button = new JButton("Select File");
+		button.addActionListener(this);
+
+		this.add(button);
+		this.pack();
+		this.setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e){
+		if(e.getSource() == button){
+			JFileChooser fileChooser = new JFileChooser();
+
+			fileChooser.setCurrentDirectory(new File(".")); //"." sets to current directory, otherwise put file path
+
+			//returns 0 if file is chosen, returns 1 if file chooser is x'ed out of
+			//int response = fileChooser.showOpenDialog(null); // select file to open
+			int response = fileChooser.showSaveDialog(null); // select file to save
+
+			if (response == JFileChooser.APPROVE_OPTION){ //same as (response == 0)
+				File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+				System.out.println(file);
+			}
+		}
+	}
+}// end of SelectAFile

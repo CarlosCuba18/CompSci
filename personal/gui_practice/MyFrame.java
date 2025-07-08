@@ -25,7 +25,12 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JSlider;
-import javax.swing.SwingConstants; 
+import javax.swing.SwingConstants;
+import javax.swing.JProgressBar;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.event.KeyEvent;
 
 
 /*
@@ -465,7 +470,7 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		combo.setSelectedIndex(0);
 		combo.removeItem("Cat");
 		combo.removeItemAt(1);
-		combo.removeAllItems(); 
+		combo.removeAllItems();  
 		System.out.println("This is number of items in list: " + combo.getItemCount());
 
 		this.add(combo);
@@ -479,6 +484,17 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 	public void menuBar(){
 		//uses MenuBarDemo
 		MenuBarDemo menu = new MenuBarDemo();
+	}
+	public void selectAFile(){
+		//uses SelectAFile
+		SelectAFile file = new SelectAFile();
+	}
+	public void colorChooser(){
+		// uses ColorChooser
+		ColorChooser color = new ColorChooser();
+	}
+	public void keyListener(){
+		KeyListenerDemo key = new KeyListenerDemo();
 	}
 
 

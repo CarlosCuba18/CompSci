@@ -31,35 +31,42 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.KeyEvent;
+import javax.swing.JFileChooser;
+import java.io.File;
+import javax.swing.JColorChooser;
 
-public class GUIPractice{
-	public static void main(String[] args){
-		MyFrame myFrame = new MyFrame();
-		myFrame.keyListener();
-	}//end of main method
-}// end of class
+public class ColorChooser extends JFrame implements ActionListener{
+		
+	JButton button;
+	JLabel label;
+	
+	ColorChooser(){
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(new FlowLayout());
 
-/*
-KEY for methods
-----------
-makeFrame
-makeLabel
-makePanel
-makeButton
-useBorderLayout
-useFlowLayout
-useGridLayout
-LayeredPane
-openNewWindow
-optionPane
-textFields
-checkBoxes
-radioButton
-comboBox
-slider
-progressBar
-menuBar
-selectAFile
-colorChooser
-keyListener
-*/
+		button = new JButton("Pick a Color");
+		button.addActionListener(this);
+
+		label = new JLabel();
+		label.setBackground(Color.white);
+		label.setText("This is some Text");
+		label.setFont(new Font("MV Boli",Font.BOLD,100));
+		label.setOpaque(true);
+
+		this.add(button);
+		this.add(label);
+		this.pack();
+		this.setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e){
+		if(e.getSource() == button){
+			JColorChooser colorChooser = new JColorChooser();
+
+			Color color = JColorChooser.showDialog(null,"Pick a Color, I guess", Color.black); //(parent component, title, initial color)
+			//label.setForeground(color);
+			label.setBackground(color);
+		}
+	}
+}

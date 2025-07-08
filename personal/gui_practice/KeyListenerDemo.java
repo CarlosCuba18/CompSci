@@ -31,35 +31,34 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.KeyEvent;
+import javax.swing.JFileChooser;
+import java.io.File;
+import javax.swing.JColorChooser;
+import java.awt.event.KeyListener;
 
-public class GUIPractice{
-	public static void main(String[] args){
-		MyFrame myFrame = new MyFrame();
-		myFrame.keyListener();
-	}//end of main method
+
+public class KeyListenerDemo extends JFrame implements KeyListener{
+	
+	KeyListenerDemo(){
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(500,500);
+		this.setLayout(null);
+
+		this.addKeyListener(this);
+
+		this.setVisible(true);
+	}
+	@Override
+	public void keyTyped(KeyEvent e){ //caled when a key is typed, uses KeyChar, char output
+
+	}
+	@Override
+	public void keyPressed(KeyEvent e){ // called when a physical key is presed down, uses KeyCode, int output
+
+	}
+	@Override
+	public void keyReleased(KeyEvent e){ // called whenever a button is released
+		System.out.println("You released key char: " + e.getKeyChar());
+	}
+
 }// end of class
-
-/*
-KEY for methods
-----------
-makeFrame
-makeLabel
-makePanel
-makeButton
-useBorderLayout
-useFlowLayout
-useGridLayout
-LayeredPane
-openNewWindow
-optionPane
-textFields
-checkBoxes
-radioButton
-comboBox
-slider
-progressBar
-menuBar
-selectAFile
-colorChooser
-keyListener
-*/
