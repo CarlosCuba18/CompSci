@@ -35,7 +35,7 @@ import java.awt.event.KeyEvent;
 public class GUIPractice{
 	public static void main(String[] args){
 		MyFrame myFrame = new MyFrame();
-		myFrame.keyListener();
+		myFrame.mouseListener();
 	}//end of main method
 }// end of class
 
@@ -62,4 +62,5 @@ menuBar
 selectAFile
 colorChooser
 keyListener
+mouseListener
 */

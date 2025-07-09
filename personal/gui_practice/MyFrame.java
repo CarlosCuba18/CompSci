@@ -496,6 +496,9 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 	public void keyListener(){
 		KeyListenerDemo key = new KeyListenerDemo();
 	}
+	public void mouseListener(){
+		MouseListnerDemo mouse = new MouseListnerDemo();
+	}
 
 
 	//used with button, text field, radio buttons, 

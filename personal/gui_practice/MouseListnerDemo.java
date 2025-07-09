@@ -35,59 +35,57 @@ import javax.swing.JFileChooser;
 import java.io.File;
 import javax.swing.JColorChooser;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
 
 
-public class KeyListenerDemo extends JFrame implements KeyListener{
-	
+public class MouseListnerDemo extends JFrame implements MouseListener{
+
 	JLabel label;
-
-	KeyListenerDemo(){
+	
+	MouseListnerDemo(){
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(500,500);
 		this.setLayout(null);
+		this.setLocationRelativeTo(null); //puts in center
 
 		label = new JLabel();
-		label.setBounds(0,0,100,100); 
-		//can use imageicon instead of colored label
+		label.setBounds(0,0,100,100);
 		label.setBackground(Color.red);
 		label.setOpaque(true);
+		label.addMouseListener(this);
 
 		this.add(label);
-		this.addKeyListener(this);
 		this.setVisible(true);
 	}
-	@Override
-	public void keyTyped(KeyEvent e){ //caled when a key is typed, uses KeyChar, char output
-		switch(e.getKeyChar()){
-			case 'a': label.setLocation(label.getX()-10, label.getY());
-				break;
-			case 'w': label.setLocation(label.getX(),label.getY()-10);
-				break;
-			case 's': label.setLocation(label.getX(),label.getY()+10);
-				break;
-			case 'd': label.setLocation(label.getX()+10,label.getY());
-				break;
-		}
-	}
 
 	@Override
-	public void keyPressed(KeyEvent e){ // called when a physical key is presed down, uses KeyCode, int output
-		switch(e.getKeyCode()){ //left = 37,up = 38,down = 40, right = 39
-			case 37: label.setLocation(label.getX()-10, label.getY());
-				break;
-			case 38: label.setLocation(label.getX(),label.getY()-10);
-				break;
-			case 39: label.setLocation(label.getX()+10,label.getY());
-				break;
-			case 40: label.setLocation(label.getX(),label.getY()+10);
-				break;
-		}
+	public void mouseClicked(MouseEvent e){
+		//called when mouse button has been clicked (pressed and released) on a component
+		System.out.println("You clicked me tehehe");
 	}
-
 	@Override
-	public void keyReleased(KeyEvent e){ // called whenever a button is released
-		System.out.println("You released key char: " + e.getKeyChar());
-		System.out.println("You released key code: " + e.getKeyCode());
+	public void mousePressed(MouseEvent e){
+		//called when mouse has been clicked on a component
+		System.out.println("You pressed me tehehe");
+		label.setBackground(Color.yellow);
 	}
-
-}// end of class
+	@Override
+	public void mouseReleased(MouseEvent e){
+		//called when a mouse has been released on a component
+		System.out.println("You released your hold on me");
+		label.setBackground(Color.green);
+	}
+	@Override
+	public void mouseEntered(MouseEvent e){
+		//called when it enters the area of a component
+		System.out.println("Hello");
+		label.setBackground(Color.blue);
+	}
+	@Override
+	public void mouseExited(MouseEvent e){
+		//called when it exits the area of a component
+		System.out.println("Hey come back :(");
+		label.setBackground(Color.red);
+	}
+}
