@@ -76,6 +76,9 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 	//combo box
 	JComboBox combo;
 
+	//dragAndDrop
+	DragAndDrop dragPanel = new DragAndDrop();
+
 
 	MyFrame(){
 	} //end of constructor
@@ -482,15 +485,12 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		ProgressBarDemo prog = new ProgressBarDemo();
 	}
 	public void menuBar(){
-		//uses MenuBarDemo
 		MenuBarDemo menu = new MenuBarDemo();
 	}
 	public void selectAFile(){
-		//uses SelectAFile
 		SelectAFile file = new SelectAFile();
 	}
 	public void colorChooser(){
-		// uses ColorChooser
 		ColorChooser color = new ColorChooser();
 	}
 	public void keyListener(){
@@ -499,6 +499,20 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 	public void mouseListener(){
 		MouseListnerDemo mouse = new MouseListnerDemo();
 	}
+
+	// try to go back to dragAndDrop and keyBinds classes to understand components more throughly
+	public void dragAndDrop(){
+		//uses DragAndDrop class
+		this.setTitle("Drag And Drop Demo");
+		this.setSize(1000,1000);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+		this.add(dragPanel);
+	}
+	public void keyBinds(){
+		KeyBindsDemo bind = new KeyBindsDemo();
+	}
+
 
 
 	//used with button, text field, radio buttons, 
