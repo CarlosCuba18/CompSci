@@ -512,6 +512,9 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 	public void keyBinds(){
 		KeyBindsDemo bind = new KeyBindsDemo();
 	}
+	public void twoDGraphics(){
+		TwoDGraphics two = new TwoDGraphics();
+	}
 
 
 
