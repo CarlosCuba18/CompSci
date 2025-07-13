@@ -35,7 +35,7 @@ import java.awt.event.KeyEvent;
 public class GUIPractice{
 	public static void main(String[] args){
 		MyFrame myFrame = new MyFrame();
-		myFrame.twoDGraphics();
+		myFrame.twoDAnimation();
 	}//end of main method
 }// end of class
 
@@ -66,4 +66,5 @@ mouseListener
 dragAndDrop
 keyBinds
 twoDGraphics
+twoDAnimation
 */

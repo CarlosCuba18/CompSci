@@ -83,12 +83,6 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 	MyFrame(){
 	} //end of constructor
 
-
-	public void slider(){
-		//uses SliderDemo
-		SliderDemo sliderDemo = new SliderDemo();
-	}
-
 	public void makeFrame(){
 		//JFrame frame = new JFrame(); //creates new frame; in this case MyFrame extends Jframe so no object needs to be created
 		this.setTitle("JFrame Title goes here"); //sets title of frame
@@ -480,6 +474,10 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		this.pack();
 		this.setVisible(true);
 	}
+	public void slider(){
+		//uses SliderDemo
+		SliderDemo sliderDemo = new SliderDemo();
+	}
 	public void progressBar(){ 
 		//uses ProgressBarDemo (omg ignore the misspelling)
 		ProgressBarDemo prog = new ProgressBarDemo();
@@ -514,6 +512,9 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 	}
 	public void twoDGraphics(){
 		TwoDGraphics two = new TwoDGraphics();
+	}
+	public void twoDAnimation(){
+		TwoDAnimation dos = new TwoDAnimation();
 	}
 
 
