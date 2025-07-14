@@ -400,6 +400,7 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		checkButton = new JButton("Submit");
 		checkButton.addActionListener(this);
 
+		//declared at the top
 		xIcon = new ImageIcon("xMark.png");
 		Image newX = xIcon.getImage();
 		Image croppedXImage = newX.getScaledInstance(100,100,Image.SCALE_SMOOTH);
