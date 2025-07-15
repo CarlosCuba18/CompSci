@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.Scanner;
 
 public class MyFrame extends JFrame implements ActionListener{
 	JButton one;
@@ -121,7 +122,8 @@ public class MyFrame extends JFrame implements ActionListener{
 
 		this.setVisible(true);
 
-	}//end of main
+	}//end of constructor
+
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == one){
@@ -185,8 +187,85 @@ public class MyFrame extends JFrame implements ActionListener{
 			screen.setText(currText);
 		}
 		else if(e.getSource() == equals){
-			//make method that makes string into solveable equation (prob stack way from COMP 182)
-			//make it return a double for some problems like 5/2 or something
+			if(currText.charAt(0) == '+' || currText.charAt(0) == '-' || currText.charAt(0) == 'x' || currText.charAt(0) == '/'){
+				//invalid and will break so no lol
+				currText = "";
+				screen.setText("No break pls");
+			}
+			else if(currText.length() < 3){
+				//input isn't complete
+			}
+			else{
+				try{
+					screen.setText(Double.toString(solve())); //try to restrain long values to beginning of text field
+				}
+				catch(NullPointerException ex){
+					screen.setText("No >:(");
+				}
+			}
+		}//end of equals' else if
+	}//end of actionPerformed
+
+	public double solve(){
+		double num1;
+		double num2;
+		int location;
+		char op; 
+		double answer;
+
+		num1 = findNum(0,currText);
+		location = numOfDigits((int)num1);
+		op = currText.charAt(location);
+		num2 = findNum(location+1,currText);
+
+
+		answer = operation(num1,num2,op);
+		return answer;
+	}
+
+	private int numOfDigits(int num){
+		int count = 0;
+		while(num > 0){
+			num /= 10;
+			count++;	
 		}
+		return count;
+	}
+
+	private Double operation(double num1, double num2, char op){
+		Double result = null;
+		if (op == '+'){
+			result = num1+num2;
+		}
+		else if(op == '-'){
+			result = num1-num2;
+		}
+		else if(op == 'x'){
+			result = num1*num2;
+		}
+		else if(op == '/'){
+			if(num2 == 0){
+				return null;
+			}
+			else{
+				result = num1/num2;
+			}
+		}
+		return result;
+	}
+	private double findNum(int position, String text){
+		String num = "";
+		Character currChar = '0';
+		try{
+			while(currChar.isDigit(currChar)){
+				num = num + currChar;
+				currChar = text.charAt(position);
+				position++;
+			}
+		}
+		catch(Exception e){
+			return (double)Integer.parseInt(num);
+		}
+		return (double)Integer.parseInt(num);
 	}
 }//end of MyFrame
