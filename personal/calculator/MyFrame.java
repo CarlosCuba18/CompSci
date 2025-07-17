@@ -74,6 +74,8 @@ public class MyFrame extends JFrame implements ActionListener{
 		equals = new JButton("=");
 		clear = new JButton("Clear");
 
+		currText = "";
+
 		buttonPanel.add(nine);			
 		buttonPanel.add(eight);	
 		buttonPanel.add(seven);
@@ -93,11 +95,6 @@ public class MyFrame extends JFrame implements ActionListener{
 		buttonPanel.add(zero);
 		buttonPanel.add(equals);
 		buttonPanel.add(add);
-
-		//buttonPanel.revalidate();
-		//buttonPanel.repaint();
-
-		currText = "";
 
 		one.addActionListener(this);
 		two.addActionListener(this);
@@ -188,39 +185,100 @@ public class MyFrame extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == equals){
 			if(currText.charAt(0) == '+' || currText.charAt(0) == '-' || currText.charAt(0) == 'x' || currText.charAt(0) == '/'){
-				//invalid and will break so no lol
 				currText = "";
 				screen.setText("No break pls");
 			}
-			else if(currText.length() < 3){
-				//input isn't complete
+			else if(currText.length() < 3){ //else to do nothing if only number, no change if op ends currText, make number actionable after solving,if someone spams ops
+			//////////////////////////////////////////////////////////////////////////////////////////////
 			}
 			else{
 				try{
 					screen.setText(Double.toString(solve())); //try to restrain long values to beginning of text field
 				}
 				catch(NullPointerException ex){
-					screen.setText("No >:(");
+					screen.setText("Null Point");
 				}
 			}
 		}//end of equals' else if
 	}//end of actionPerformed
 
 	public double solve(){
-		double num1;
-		double num2;
-		int location;
-		char op; 
-		double answer;
+		double currNum = 0;
+		Double[] nums = new Double[20];
+		Character [] ops = new Character[20];
+		int location = 0;
+		final int LENGTH = currText.length();
+		Character currOp = 0; 
+		double answer = 0;
+		int index = 0;
 
-		num1 = findNum(0,currText);
-		location = numOfDigits((int)num1);
-		op = currText.charAt(location);
-		num2 = findNum(location+1,currText);
+		while(location < LENGTH){
+			currNum = findNum(location,currText);
+			nums[index] = currNum;
+			location += numOfDigits((int)currNum);
+			if(location >= LENGTH){
+				continue;
+			}
+			currOp = currText.charAt(location);
+			ops[index] = currOp;
+			location++; 
+			index++;
+		}
 
+		location = 0;
+		index = 0;
 
-		answer = operation(num1,num2,op);
+		if(priority(ops)){ /////////////////////////////////////////////////////////////////////////////////////////////////
+			while(currOp != null){
+				currOp = ops[index];
+				if(currOp == 'x' || currOp == '/'){
+					nums[index] = operation(nums[index],nums[index+1],currOp);
+					nums[index+1] = null;
+					ops[index] = null;
+					nums = fixArray(nums,index+1);
+					ops = fixArray(ops,index);
+					continue;
+				}
+			index++;
+			} //end of while loop
+		}// end of x and / condition
+
+		if(isEmpty(ops)){ // only x and / in equation
+			answer = nums[0];
+			return answer;
+		}
+
+		location = 0;
+		index = 0;
+
+		while(!isEmpty(ops)){
+			currOp = ops[0];
+			nums[0] = operation(nums[0],nums[1],currOp);
+			nums[1] = null;
+			ops[0] = null;
+			nums = fixArray(nums,index+1);
+			ops = fixArray(ops,index);
+		}
+
+		answer = nums[0];
 		return answer;
+
+	}
+
+	private double findNum(int position, String text){
+		String num = "";
+		Character currChar = '0';
+		try{
+			while(currChar.isDigit(currChar)){
+				num = num + currChar;
+				currChar = text.charAt(position);
+				position++;
+			}
+		}
+		catch(Exception e){
+			return (double)Integer.parseInt(num);
+		}
+		return (double)Integer.parseInt(num);
 	}
 
 	private int numOfDigits(int num){
@@ -253,19 +311,41 @@ public class MyFrame extends JFrame implements ActionListener{
 		}
 		return result;
 	}
-	private double findNum(int position, String text){
-		String num = "";
-		Character currChar = '0';
-		try{
-			while(currChar.isDigit(currChar)){
-				num = num + currChar;
-				currChar = text.charAt(position);
-				position++;
+
+	private boolean priority(Character[] ops){
+		Character c = 'a';
+		int i = 0;
+
+		while(c != null){
+			c = ops[i];
+			if(c == null){
+				return false;
+			}
+			if(c == 'x' || c == '/'){
+				return true;
+			}
+			i++;
+		}
+		return false;
+	}
+
+	private <T> T[] fixArray(T[] arr,int index){
+		for(int i = index; i<arr.length-1;i++){
+			arr[index] = arr[index+1];
+		}
+		return arr;
+	}
+
+	private boolean isEmpty(Character[] arr){
+		Character curr;
+		for(int i = 0; i<arr.length;i++){
+			curr = arr[i];
+			if(curr != null){
+				return false;
 			}
 		}
-		catch(Exception e){
-			return (double)Integer.parseInt(num);
-		}
-		return (double)Integer.parseInt(num);
+		return true;
 	}
+
+
 }//end of MyFrame
