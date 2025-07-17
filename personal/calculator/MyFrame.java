@@ -9,6 +9,10 @@ import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Scanner;
+import java.util.Stack;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class MyFrame extends JFrame implements ActionListener{
 	JButton one;
@@ -188,16 +192,19 @@ public class MyFrame extends JFrame implements ActionListener{
 				currText = "";
 				screen.setText("No break pls");
 			}
-			else if(currText.length() < 3){ //else to do nothing if only number, no change if op ends currText, make number actionable after solving,if someone spams ops
+			else if(currText.length() < 3){ //make number actionable after solving,if someone spams ops
 			//////////////////////////////////////////////////////////////////////////////////////////////
 			}
+			else if(currText.charAt(currText.length()) == '+' || currText.charAt(currText.length()) == '-' || currText.charAt(currText.length()) == 'x' || currText.charAt(currText.length()) == '/'){	
+			}
+			else if(isNumber(currText)){
+			}
+			else if(!twinOps(currText)){
+				currText = "";
+				screen.setText(currText);
+			}
 			else{
-				try{
-					screen.setText(Double.toString(solve())); //try to restrain long values to beginning of text field
-				}
-				catch(NullPointerException ex){
-					screen.setText("Null Point");
-				}
+				screen.setText(Double.toString(solve())); //try to restrain long values to beginning of text field
 			}
 		}//end of equals' else if
 	}//end of actionPerformed
@@ -211,6 +218,7 @@ public class MyFrame extends JFrame implements ActionListener{
 		Character currOp = 0; 
 		double answer = 0;
 		int index = 0;
+		Double t1,t2;
 
 		while(location < LENGTH){
 			currNum = findNum(location,currText);
@@ -225,44 +233,56 @@ public class MyFrame extends JFrame implements ActionListener{
 			index++;
 		}
 
-		location = 0;
 		index = 0;
+		currNum = nums[0];
 
-		if(priority(ops)){ /////////////////////////////////////////////////////////////////////////////////////////////////
-			while(currOp != null){
-				currOp = ops[index];
-				if(currOp == 'x' || currOp == '/'){
-					nums[index] = operation(nums[index],nums[index+1],currOp);
-					nums[index+1] = null;
-					ops[index] = null;
-					nums = fixArray(nums,index+1);
-					ops = fixArray(ops,index);
-					continue;
-				}
+		Stack<Double> numStack = new Stack<>(); //push(double), pop()
+		Queue<Double> q = new LinkedList<>(); //add(Double), remove() removes top[can throw a no such element exception], poll() does same but returns null if empty
+
+		numStack.push(currNum);
+		for(Object o:ops){
+			if(o == null){
+				continue;
+			}
+			currNum = nums[index+1];
+			t1 = 0.0;
+			t2 = 0.0;
+			if((Character)o == 'x' || (Character)o == '/'){
+				numStack.push(currNum);
+				t2 = numStack.pop();
+				t1 = numStack.pop();
+				t1 = operation(t1,t2,(Character)o);
+				numStack.push(t1);
+			}
+			else{
+				q.add(numStack.pop());
+				numStack.push(currNum);
+			}
 			index++;
-			} //end of while loop
-		}// end of x and / condition
+		}
+		q.add(numStack.pop());
 
-		if(isEmpty(ops)){ // only x and / in equation
-			answer = nums[0];
+		if(q.size() == 1){
+			answer = q.poll();
 			return answer;
 		}
 
-		location = 0;
-		index = 0;
+		Object[] simpleOp = simplify(ops);
 
-		while(!isEmpty(ops)){
-			currOp = ops[0];
-			nums[0] = operation(nums[0],nums[1],currOp);
-			nums[1] = null;
-			ops[0] = null;
-			nums = fixArray(nums,index+1);
-			ops = fixArray(ops,index);
+		
+		for(Object c : simpleOp){
+			if(c == null){
+				continue;
+			}
+			t1 = q.poll();
+			t2 = q.poll();
+			if(t2 == null){
+			answer = operation(answer,t1,(char)c);
+			continue;
+			}
+			answer += operation(t1,t2,(char)c);
 		}
-
-		answer = nums[0];
 		return answer;
-
 	}
 
 	private double findNum(int position, String text){
@@ -312,40 +332,62 @@ public class MyFrame extends JFrame implements ActionListener{
 		return result;
 	}
 
-	private boolean priority(Character[] ops){
-		Character c = 'a';
-		int i = 0;
-
-		while(c != null){
-			c = ops[i];
-			if(c == null){
-				return false;
+	private Object[] simplify(Character[] ops){
+		ArrayList<Character> array = new ArrayList<>();
+		for(Character o: ops){
+			if(o == null){
+				continue;
 			}
-			if(c == 'x' || c == '/'){
-				return true;
+			if((Character)o == '+' || (Character)o =='-'){
+				array.add(o);
 			}
-			i++;
 		}
-		return false;
+		return array.toArray();
 	}
 
-	private <T> T[] fixArray(T[] arr,int index){
-		for(int i = index; i<arr.length-1;i++){
-			arr[index] = arr[index+1];
-		}
-		return arr;
-	}
-
-	private boolean isEmpty(Character[] arr){
-		Character curr;
-		for(int i = 0; i<arr.length;i++){
-			curr = arr[i];
-			if(curr != null){
+	private boolean isNumber(String str){
+		char[] c = str.toCharArray();
+		for(Character o: c){
+			if(!o.isDigit(o)){
 				return false;
 			}
 		}
 		return true;
 	}
 
+	private boolean twinOps(String str){
+		char[] c = str.toCharArray();
+		boolean b = false;
 
+		for(Character o: c){
+			if(o == null){
+				return false;
+			}
+			if(isOp(o)&& b == true){
+				return true;
+			}
+			if(isOp(o)){
+				b = true;
+				continue;
+			}
+			b = false;
+		}
+
+		return false;
+	}
+	private boolean isOp(char op){
+		if (op == '+'){
+			return true;
+		}
+		else if(op == '-'){
+			return true;
+		}
+		else if(op == 'x'){
+			return true;
+		}
+		else if(op == '/'){
+			return true;
+		}
+	return false;
+	}
 }//end of MyFrame
