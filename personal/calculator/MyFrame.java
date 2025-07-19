@@ -13,6 +13,8 @@ import java.util.Stack;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class MyFrame extends JFrame implements ActionListener{
 	JButton one;
@@ -35,6 +37,8 @@ public class MyFrame extends JFrame implements ActionListener{
 	JPanel screenPanel;
 	JPanel buttonPanel;
 	String currText;
+	Set<String> twinSet = Set.of("++","+-","+x","+/","-+","--","-x","-/","x+","x-","xx","x/","/+","/-","/x","//");
+	int cursorPosistion = 0;
 
 	MyFrame(){
 		Color myColor = Color.decode("#3f87d9");
@@ -48,8 +52,9 @@ public class MyFrame extends JFrame implements ActionListener{
 
 		screen = new JTextField();
 		screen.setPreferredSize(new Dimension(600,150));
-		screen.setFont(new Font("Impact",Font.BOLD,65));
+		screen.setFont(new Font("Impact",Font.BOLD,60));
 		screen.setEditable(false);
+		screen.setCaretPosition(cursorPosistion);
 
 		screenPanel = new JPanel();
 		screenPanel.setBounds(0,0,600,150);
@@ -130,89 +135,122 @@ public class MyFrame extends JFrame implements ActionListener{
 		if(e.getSource() == one){
 			currText = currText + "1";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == two){
 			currText = currText + "2";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == three){
 			currText = currText + "3";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == four){
 			currText = currText + "4";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == five){
 			currText = currText + "5";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == six){
 			currText = currText + "6";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == seven){
 			currText = currText + "7";
-			screen.setText(currText);	
+			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);	
 		}
 		else if(e.getSource() == eight){
 			currText = currText + "8";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == nine){
 			currText = currText + "9";
-			screen.setText(currText);	
+			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);	
 		}
 		else if(e.getSource() == zero){
 			currText = currText + "0";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == add){
 			currText = currText + "+";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == sub){
 			currText = currText + "-";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == mult){
 			currText = currText + "x";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == div){
 			currText = currText + "/";
 			screen.setText(currText);
+			cursorPosistion++;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == clear){
 			currText = "";
 			screen.setText(currText);
+			cursorPosistion = 0;
+			screen.setCaretPosition(cursorPosistion);
 		}
 		else if(e.getSource() == equals){
-			if(currText.charAt(0) == '+' || currText.charAt(0) == '-' || currText.charAt(0) == 'x' || currText.charAt(0) == '/'){
+			if(currText == ""){
+			}
+			else if(currText.charAt(0) == '+' || currText.charAt(0) == '-' || currText.charAt(0) == 'x' || currText.charAt(0) == '/'){
 				currText = "";
-				screen.setText("No break pls");
+				screen.setText(currText);
 			}
-			else if(currText.length() < 3){ //make number actionable after solving,if someone spams ops
-			//////////////////////////////////////////////////////////////////////////////////////////////
+			else if(currText.length() < 3){
 			}
-			else if(currText.charAt(currText.length()) == '+' || currText.charAt(currText.length()) == '-' || currText.charAt(currText.length()) == 'x' || currText.charAt(currText.length()) == '/'){	
+			else if(currText.charAt(currText.length()-1) == '+' || currText.charAt(currText.length()-1) == '-' || currText.charAt(currText.length()-1) == 'x' || currText.charAt(currText.length()-1) == '/'){	
 			}
 			else if(isNumber(currText)){
 			}
-			else if(!twinOps(currText)){
-				currText = "";
+			else if(!twinOps(twinSet,currText)){
+				currText = "twin";
 				screen.setText(currText);
 			}
 			else{
 				screen.setText(Double.toString(solve())); //try to restrain long values to beginning of text field
+				cursorPosistion = 0;
+				screen.setCaretPosition(cursorPosistion);	
 			}
 		}//end of equals' else if
 	}//end of actionPerformed
 
 	public double solve(){
 		double currNum = 0;
-		Double[] nums = new Double[20];
-		Character [] ops = new Character[20];
+		Double[] nums = new Double[100];
+		Character [] ops = new Character[100];
 		int location = 0;
 		final int LENGTH = currText.length();
 		Character currOp = 0; 
@@ -220,7 +258,7 @@ public class MyFrame extends JFrame implements ActionListener{
 		int index = 0;
 		Double t1,t2;
 
-		while(location < LENGTH){
+		while(location < LENGTH){ //moves into readable arrays
 			currNum = findNum(location,currText);
 			nums[index] = currNum;
 			location += numOfDigits((int)currNum);
@@ -239,8 +277,8 @@ public class MyFrame extends JFrame implements ActionListener{
 		Stack<Double> numStack = new Stack<>(); //push(double), pop()
 		Queue<Double> q = new LinkedList<>(); //add(Double), remove() removes top[can throw a no such element exception], poll() does same but returns null if empty
 
-		numStack.push(currNum);
-		for(Object o:ops){
+		numStack.push(currNum); 
+		for(Object o:ops){ //solves the priority (x and /) parts of the problem first
 			if(o == null){
 				continue;
 			}
@@ -267,20 +305,16 @@ public class MyFrame extends JFrame implements ActionListener{
 			return answer;
 		}
 
-		Object[] simpleOp = simplify(ops);
+		Object[] simpleOp = simplify(ops); // removes the x and / and leaves only + and - in array
 
 		
-		for(Object c : simpleOp){
+		answer = q.poll();
+		for(Object c : simpleOp){ //solves the + and - to solve and print the result
 			if(c == null){
 				continue;
 			}
 			t1 = q.poll();
-			t2 = q.poll();
-			if(t2 == null){
 			answer = operation(answer,t1,(char)c);
-			continue;
-			}
-			answer += operation(t1,t2,(char)c);
 		}
 		return answer;
 	}
@@ -355,39 +389,12 @@ public class MyFrame extends JFrame implements ActionListener{
 		return true;
 	}
 
-	private boolean twinOps(String str){
-		char[] c = str.toCharArray();
-		boolean b = false;
-
-		for(Character o: c){
-			if(o == null){
+	private boolean twinOps(Set<String> set, String str){
+		for(String x:set){
+			if(str.contains(x)){
 				return false;
 			}
-			if(isOp(o)&& b == true){
-				return true;
-			}
-			if(isOp(o)){
-				b = true;
-				continue;
-			}
-			b = false;
 		}
-
-		return false;
-	}
-	private boolean isOp(char op){
-		if (op == '+'){
-			return true;
-		}
-		else if(op == '-'){
-			return true;
-		}
-		else if(op == 'x'){
-			return true;
-		}
-		else if(op == '/'){
-			return true;
-		}
-	return false;
+		return true;
 	}
 }//end of MyFrame
