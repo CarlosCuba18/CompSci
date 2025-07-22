@@ -1,9 +1,9 @@
-import javax.swing.JFrame; //import for frame
-import java.awt.Color; // color import
-import javax.swing.ImageIcon; //image icon import
+import javax.swing.JFrame;
+import java.awt.Color; 
+import javax.swing.ImageIcon; 
 import javax.swing.JLabel;
-import javax.swing.border.Border;//border import
-import javax.swing.BorderFactory; //import border factory
+import javax.swing.border.Border;
+import javax.swing.BorderFactory;
 import javax.swing.border.LineBorder;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
