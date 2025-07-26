@@ -6,42 +6,61 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
-public class HangMan{
+import javax.swing.JFrame;
+import java.awt.Color;
+import javax.swing.JPanel; //draw hangman w/ graphics
+import javax.swing.JLabel; //for showing current unanswered letters
+import javax.swing.JButton; //buttons with each letter; glow green if right and red is wrong
+import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.FlowLayout; //so it works with resiable window
+import javax.swing.JRadioButton; //ask for input or not
+import javax.swing.JOptionPane;//use for erros such as "already inputted" or "not a letter"
+
+
+public class HangMan implements ActionListener{
 	public static void main(String[] args){
-		//Have intro page, press play
-		//another window pops up asking input string or get random
-		//window closes and loads game
+
 		Set<Character> alphabet = Set.of('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
-
-		String selectedString;
-//////////////////////////////////////////////////////////////// encapsulate
-		String input = "";
+		String selectedString = select();
 		Scanner scan = new Scanner(System.in);
-		System.out.println("What do you want to solve?");
-		input = scan.nextLine();
-		input.trim();
-		if(input != ""){
-			selectedString = input.toLowerCase();
-			//System.out.println("Selected String: " + input);
-		}
-		else{
-			String[] loadedStrings = loadFile();
-			final int arraySize = loadedStrings.length;
-			Random random = new Random();
-			int index = random.nextInt(arraySize);
-			selectedString = loadedStrings[index].toLowerCase();
-			//System.out.println(loadedStrings[index]);	
-		}
-///////////////////////////////////////////////////////////////////
-
 		String hiddenString = hide(selectedString);
 		Set<Character> answerSet = createAnswerSet(selectedString);
-		System.out.println(hiddenString);
-
 		Set<Character> inputSet = new HashSet<>();
 		int incorrect = 0;
 		String scannedString;
 		Character myChar;
+		JFrame frame = new JFrame();
+		JPanel hangManPanel = new JPanel();
+		JPanel lettersPanel = new JPanel();
+		JPanel wordPanel = new JPanel();
+		JLabel currentPhrase = new JLabel();
+		JButton[] buttons = new JButton[26]; //enchanced for-loop to declare each button with letter; buttons[i] = new JButton(currChar); w/ panel.add(buttons[i]);
+
+
+		frame.setTitle("HangMan (X-X)");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(null);
+		frame.setResizable(false);
+		frame.setSize(1000,1000);
+		frame.setLocationRelativeTo(null);
+		frame.setLayout(new FlowLayout(FlowLayout.CENTER,10,10)); //(LEADING==left//CENTER//TRAILING==right),horizontal spacing, vertical spacing)
+
+
+
+
+
+
+
+		frame.add(hangManPanel);
+		wordPanel.add(currentPhrase);
+		frame.add(wordPanel);
+		frame.add(lettersPanel);
+
+		frame.setVisible(true);
 
 		while(incorrect < 7){
 			for(;;){
@@ -86,12 +105,32 @@ public class HangMan{
 		}//end of while
 
 		System.out.println("Sorry, it was: " + selectedString);
-
-
-
-
-
+		scan.close();
 	}//end of main
+
+	private static String select(){
+		//have this be the opening of new page, pressing play and opening new frame asking using radio button to ask for input or use a preloaded one
+
+		String selectedString;
+		String input = "";
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.println("What do you want to solve?");
+		input = scanner.nextLine();
+		input.trim();
+		if(input != ""){
+			selectedString = input.toLowerCase();
+			return selectedString;
+		}
+		else{
+			String[] loadedStrings = loadFile();
+			final int arraySize = loadedStrings.length;
+			Random random = new Random();
+			int index = random.nextInt(arraySize);
+			selectedString = loadedStrings[index].toLowerCase();
+		}
+		return selectedString;
+	}
 
 	private static String[] loadFile(){
 		ArrayList<String> list = new ArrayList<>();

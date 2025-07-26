@@ -51,6 +51,16 @@ checkBoxes
 radioButton
 comboBox
 slider
+progressBar
+menuBar
+selectAFile
+colorChooser
+keyListener
+mouseListener
+dragAndDrop
+keyBinds
+twoDGraphics
+TwoDAnimation
 */
 
 public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a child of JFrame, so it can call methods from JFrame
@@ -272,7 +282,7 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500,500);
-		frame.setLayout(new FlowLayout(FlowLayout.CENTER,10,10)); //(LEADING==left//CENTER(same as empty argument)//TRAILING==right,horizontal spacing int, vertical spacing int)
+		frame.setLayout(new FlowLayout(FlowLayout.CENTER,10,10)); //(LEADING==left//CENTER(same as empty argument)//TRAILING==right),horizontal spacing int, vertical spacing int)
 		
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(250,250));
