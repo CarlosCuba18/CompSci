@@ -11,19 +11,103 @@ import java.awt.Color;
 import javax.swing.JPanel; //draw hangman w/ graphics
 import javax.swing.JLabel; //for showing current unanswered letters
 import javax.swing.JButton; //buttons with each letter; glow green if right and red is wrong
-import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.FlowLayout; //so it works with resiable window
 import javax.swing.JRadioButton; //ask for input or not
+import javax.swing.JTextField;
 import javax.swing.JOptionPane;//use for erros such as "already inputted" or "not a letter"
+import javax.swing.JLayeredPane;
+import javax.swing.BorderFactory;
 
 
-public class HangMan implements ActionListener{
+public class HangMan{
 	public static void main(String[] args){
 
+		JFrame frame = new JFrame();
+		JLayeredPane gamePane = new JLayeredPane();
+		JPanel gamePanel = new JPanel();
+		JPanel startScreen = new JPanel();
+		JPanel background = new JPanel();
+
+		JPanel hangManPanel = new JPanel();
+		JPanel lettersPanel = new JPanel();
+		JPanel wordPanel = new JPanel();
+		JLabel currentPhrase = new JLabel();
+		JButton startButton = new JButton();
+		JButton[] buttons = new JButton[26]; //enchanced for-loop to declare each button with letter; buttons[i] = new JButton(currChar); w/ panel.add(buttons[i]);
+
+		frame.setTitle("HangMan (X-X)");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(null);
+		frame.setResizable(false);
+		frame.setSize(1500,1100);
+		frame.setLocationRelativeTo(null);
+
+		//adding layered pane to frame
+		gamePane.setBounds(0,0,1500,1100);
+		gamePane.setLayout(null);
+		frame.add(gamePane);
+
+		//adding 3 main panels to layered pane
+		startScreen.setOpaque(true);
+		startScreen.setLayout(null);
+		startScreen.setBounds(0,0,1500,1100);
+		startScreen.setBackground(Color.pink);
+		gamePane.add(startScreen);
+
+		background.setOpaque(true);
+		background.setLayout(null);
+		background.setBounds(0,0,1500,1100);
+		background.setBackground(Color.green);
+		gamePane.add(background);
+
+		gamePanel.setOpaque(true);
+		gamePanel.setLayout(null);
+		gamePanel.setBounds(0,0,1500,1100);
+		gamePanel.setBackground(Color.blue);
+		gamePane.add(gamePanel);
+
+		//adding panels to game panel (one of the ones added to overall layered pane)
+		hangManPanel.setOpaque(true);
+		hangManPanel.setBackground(Color.red);
+		hangManPanel.setBounds(100,50,400,400);
+		gamePanel.add(hangManPanel);
+
+		wordPanel.setOpaque(true);
+		wordPanel.setBackground(Color.orange);
+		wordPanel.setBounds(700,50,600,400);
+		//fix font
+		wordPanel.add(currentPhrase);
+		gamePanel.add(wordPanel);
+
+		lettersPanel.setOpaque(true);
+		lettersPanel.setBackground(Color.yellow);
+		lettersPanel.setBounds(100,550,1200,400);
+		gamePanel.add(lettersPanel);
+
+		//moveToFront(Comp),moveToBack(Comp)
+		//gamePane.moveToFront(gamePanel);
+		//gamePane.moveToBack(gamePanel);
+
+		//components for start screen
+
+		//make private class that extends button implements listner
+		buttonClass b = new buttonClass();
+		startButton = b.makeButton();
+		//b.turnOffButton();
+		//have main be the only method in Hangman, make instance of new helper class to work with everything/ have create() that makes all the frames and stuff
+
+		startScreen.add(startButton);
+
+
+		gamePane.moveToFront(startScreen);
+
+		frame.setVisible(true);
+
+		}/*
 		Set<Character> alphabet = Set.of('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
 		String selectedString = select();
 		Scanner scan = new Scanner(System.in);
@@ -33,34 +117,6 @@ public class HangMan implements ActionListener{
 		int incorrect = 0;
 		String scannedString;
 		Character myChar;
-		JFrame frame = new JFrame();
-		JPanel hangManPanel = new JPanel();
-		JPanel lettersPanel = new JPanel();
-		JPanel wordPanel = new JPanel();
-		JLabel currentPhrase = new JLabel();
-		JButton[] buttons = new JButton[26]; //enchanced for-loop to declare each button with letter; buttons[i] = new JButton(currChar); w/ panel.add(buttons[i]);
-
-
-		frame.setTitle("HangMan (X-X)");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(null);
-		frame.setResizable(false);
-		frame.setSize(1000,1000);
-		frame.setLocationRelativeTo(null);
-		frame.setLayout(new FlowLayout(FlowLayout.CENTER,10,10)); //(LEADING==left//CENTER//TRAILING==right),horizontal spacing, vertical spacing)
-
-
-
-
-
-
-
-		frame.add(hangManPanel);
-		wordPanel.add(currentPhrase);
-		frame.add(wordPanel);
-		frame.add(lettersPanel);
-
-		frame.setVisible(true);
 
 		while(incorrect < 7){
 			for(;;){
@@ -287,5 +343,40 @@ public class HangMan implements ActionListener{
 			System.out.println("_|______");
 		}
 		
+	}
+	*/
+
+}
+
+class buttonClass extends JButton implements ActionListener{
+	JButton button = this;	
+	buttonClass(){
+	}
+	public JButton makeButton(){
+		this.setBounds(450,600,500,300);
+		this.setHorizontalTextPosition(JButton.CENTER);
+		this.addActionListener(this);
+		this.setText("I'm a button");
+		this.setFocusable(false);
+		this.setFont(new Font("Comic Sans", Font.BOLD,50));
+		this.setForeground(Color.black); //color of text
+		this.setBackground(Color.lightGray); //color of button
+		this.setBorder(BorderFactory.createEtchedBorder());
+		//startButton.setEnabled(false); //turns off a button
+		return this;
+	}
+	public void turnOffButton(){
+		this.setEnabled(false);
+	}
+	public void turnOnButton(){
+		this.setEnabled(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e){
+		if(e.getSource() == button){
+			System.out.println("works");
+			turnOffButton();
+		}
 	}
 }
