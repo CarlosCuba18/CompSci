@@ -36,7 +36,7 @@ class HangManMethods implements ActionListener{
 	JPanel wordPanel = new JPanel();
 	JLabel currentPhrase = new JLabel();
 	JTextField inputField;
-	String inputFieldString = "";
+	String inputFieldString="";
 
 	JButton startButton = new JButton();
 	JButton[] buttons = new JButton[26]; //enchanced for-loop to declare each button with letter; buttons[i] = new JButton(currChar); w/ panel.add(buttons[i]);
@@ -384,42 +384,55 @@ class HangManMethods implements ActionListener{
 		}
 	}
 	*/
+
 	@Override
 	public void actionPerformed(ActionEvent e){
+		boolean input; //fix it declearing after each press
+		String str = inputField.getText();
+
 		if(e.getSource() == startButton){
 			turnOffStartButton();
 			gamePane.moveToFront(gamePanel);
 			gamePane.moveToBack(startScreen);
 		}
 		else if(e.getSource() == yesInput){
-
+			input = true;
+			System.out.println(input);
 		}
 		else if(e.getSource() == noInput){
-
+			input = false;
+			System.out.println(input);
 		}
 		else if(e.getSource() == afterInputButton){
-			if(inputField.getText() == ""){
-				//make error box and reprompt
+
+			if(input == true && str.equals("")){
+				JOptionPane.showMessageDialog(inputField,"Please insert text or select preloaded button","Error",JOptionPane.ERROR_MESSAGE);
 			}
-			gamePane.moveToFront(gamePanel);
-			gamePane.moveToBack(inputScreen);
-			afterInputButton.setEnabled(false);
-			//turn off radio buttons
-			//turn on right at declaring so it can loop program
+			else{
+				gamePane.moveToFront(gamePanel);
+				gamePane.moveToBack(inputScreen);
+				inputScreen.setVisible(false);
+				afterInputButton.setEnabled(false);
+				//afterInputButton.setVisible(false);
+				yesInput.setEnabled(false);
+				noInput.setEnabled(false);
+				inputField.setEditable(false);
+				//turn on right at declaring so it can loop program
+			}
 		}
-		
 	}
+		
 	public void turnOffStartButton(){
 		startButton.setEnabled(false);
 	}
 	public void turnOnStartButton(){
 		startButton.setEnabled(true);
 	}
-}
+	//turn on/off all 3 screens methods
+}//end of class
 
 public class HangMan{
 	public static void main(String[] args){
 		HangManMethods hmm = new HangManMethods();
-
 	}
 }

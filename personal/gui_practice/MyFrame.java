@@ -370,7 +370,7 @@ public class MyFrame extends JFrame implements ActionListener{ //makes MyFrame a
 
 		//JOptionPane.showConfirmDialog(null,"do you code??","title",JOptionPane.YES_NO_CANCEL_OPTION);
 		//System.out.println(JOptionPane.showConfirmDialog(null,"do you code??","title",JOptionPane.YES_NO_CANCEL_OPTION));
-		//yes=0,no=1,cancel=2,x on corner=-1
+		//yes=0,no=1,cancel=2, x on corner=-1
 
 		//String name = JOptionPane.showInputDialog("What is your name???");
 		//System.out.println("Hello, " + name + "!");
