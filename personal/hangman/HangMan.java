@@ -17,28 +17,36 @@ import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.FlowLayout; //so it works with resiable window
 import javax.swing.JRadioButton; //ask for input or not
+import javax.swing.ButtonGroup;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;//use for erros such as "already inputted" or "not a letter"
 import javax.swing.JLayeredPane;
 import javax.swing.BorderFactory;
 
 
-public class HangMan{
-	public static void main(String[] args){
+class HangManMethods implements ActionListener{
+	JFrame frame = new JFrame();
+	JLayeredPane gamePane = new JLayeredPane();
+	JPanel startScreen = new JPanel();
+	JPanel inputScreen = new JPanel();
+	JPanel gamePanel = new JPanel();
 
-		JFrame frame = new JFrame();
-		JLayeredPane gamePane = new JLayeredPane();
-		JPanel gamePanel = new JPanel();
-		JPanel startScreen = new JPanel();
-		JPanel background = new JPanel();
+	JPanel hangManPanel = new JPanel();
+	JPanel lettersPanel = new JPanel();
+	JPanel wordPanel = new JPanel();
+	JLabel currentPhrase = new JLabel();
+	JTextField inputField;
+	String inputFieldString = "";
 
-		JPanel hangManPanel = new JPanel();
-		JPanel lettersPanel = new JPanel();
-		JPanel wordPanel = new JPanel();
-		JLabel currentPhrase = new JLabel();
-		JButton startButton = new JButton();
-		JButton[] buttons = new JButton[26]; //enchanced for-loop to declare each button with letter; buttons[i] = new JButton(currChar); w/ panel.add(buttons[i]);
+	JButton startButton = new JButton();
+	JButton[] buttons = new JButton[26]; //enchanced for-loop to declare each button with letter; buttons[i] = new JButton(currChar); w/ panel.add(buttons[i]);
+	JRadioButton yesInput;
+	JRadioButton noInput;
+	JButton afterInputButton;
 
+
+	HangManMethods(){
+		//creating frame
 		frame.setTitle("HangMan (X-X)");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(null);
@@ -52,25 +60,66 @@ public class HangMan{
 		frame.add(gamePane);
 
 		//adding 3 main panels to layered pane
+////////All start screen components/////////////////////////////////////
 		startScreen.setOpaque(true);
 		startScreen.setLayout(null);
 		startScreen.setBounds(0,0,1500,1100);
 		startScreen.setBackground(Color.pink);
 		gamePane.add(startScreen);
 
-		background.setOpaque(true);
-		background.setLayout(null);
-		background.setBounds(0,0,1500,1100);
-		background.setBackground(Color.green);
-		gamePane.add(background);
+		startButton.setBounds(450,600,500,300);
+		startButton.setHorizontalTextPosition(JButton.CENTER);
+		startButton.addActionListener(this);
+		startButton.setText("Start");
+		startButton.setFocusable(false);
+		startButton.setFont(new Font("Comic Sans", Font.BOLD,50));
+		startButton.setForeground(Color.black); //color of text
+		startButton.setBackground(Color.lightGray); //color of button
+		startButton.setBorder(BorderFactory.createEtchedBorder());
+		startScreen.add(startButton);
 
+////////All input screen components/////////////////////////////////////
+		inputScreen.setOpaque(true);
+		inputScreen.setLayout(null);
+		inputScreen.setBounds(0,0,1500,1100);
+		inputScreen.setBackground(Color.green);
+		gamePane.add(inputScreen);
+
+		yesInput = new JRadioButton("Let me pick my own phrase");
+		noInput = new JRadioButton("Give me a phrase to guess");
+		ButtonGroup group = new ButtonGroup();
+		group.add(yesInput);
+		group.add(noInput);
+
+		yesInput.setBounds(120,700,500,100);
+		yesInput.setFont(new Font("Comic Sans",Font.BOLD,20));
+		yesInput.addActionListener(this);
+		inputScreen.add(yesInput);
+
+		noInput.setBounds(820,700,500,100);
+		noInput.addActionListener(this);
+		noInput.setFont(new Font("Comic Sans", Font.BOLD,20));
+		inputScreen.add(noInput);
+
+		inputField = new JTextField();
+		inputField.setBounds(120,200,1200,300);
+		inputField.setFont(new Font("Comic Sans",Font.PLAIN,60));
+		inputField.setText("");
+		inputScreen.add(inputField);
+
+		afterInputButton = new JButton("Continue");
+		afterInputButton.setBounds(1120,900,300,100);
+		afterInputButton.addActionListener(this);
+		inputScreen.add(afterInputButton);
+
+
+////////All game screen components//////////////////////////////////////
 		gamePanel.setOpaque(true);
 		gamePanel.setLayout(null);
 		gamePanel.setBounds(0,0,1500,1100);
 		gamePanel.setBackground(Color.blue);
 		gamePane.add(gamePanel);
 
-		//adding panels to game panel (one of the ones added to overall layered pane)
 		hangManPanel.setOpaque(true);
 		hangManPanel.setBackground(Color.red);
 		hangManPanel.setBounds(100,50,400,400);
@@ -88,26 +137,17 @@ public class HangMan{
 		lettersPanel.setBounds(100,550,1200,400);
 		gamePanel.add(lettersPanel);
 
+///////////////////////////////////////////////////////////////////////
+
 		//moveToFront(Comp),moveToBack(Comp)
-		//gamePane.moveToFront(gamePanel);
-		//gamePane.moveToBack(gamePanel);
 
-		//components for start screen
-
-		//make private class that extends button implements listner
-		buttonClass b = new buttonClass();
-		startButton = b.makeButton();
-		//b.turnOffButton();
-		//have main be the only method in Hangman, make instance of new helper class to work with everything/ have create() that makes all the frames and stuff
-
-		startScreen.add(startButton);
-
-
-		gamePane.moveToFront(startScreen);
-
+		gamePane.moveToFront(inputScreen);
+		turnOffStartButton();
 		frame.setVisible(true);
 
-		}/*
+	}//end of constructor
+
+	/*
 		Set<Character> alphabet = Set.of('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
 		String selectedString = select();
 		Scanner scan = new Scanner(System.in);
@@ -342,41 +382,44 @@ public class HangMan{
 			System.out.println(" |      ");
 			System.out.println("_|______");
 		}
-		
 	}
 	*/
-
-}
-
-class buttonClass extends JButton implements ActionListener{
-	JButton button = this;	
-	buttonClass(){
-	}
-	public JButton makeButton(){
-		this.setBounds(450,600,500,300);
-		this.setHorizontalTextPosition(JButton.CENTER);
-		this.addActionListener(this);
-		this.setText("I'm a button");
-		this.setFocusable(false);
-		this.setFont(new Font("Comic Sans", Font.BOLD,50));
-		this.setForeground(Color.black); //color of text
-		this.setBackground(Color.lightGray); //color of button
-		this.setBorder(BorderFactory.createEtchedBorder());
-		//startButton.setEnabled(false); //turns off a button
-		return this;
-	}
-	public void turnOffButton(){
-		this.setEnabled(false);
-	}
-	public void turnOnButton(){
-		this.setEnabled(true);
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e){
-		if(e.getSource() == button){
-			System.out.println("works");
-			turnOffButton();
+		if(e.getSource() == startButton){
+			turnOffStartButton();
+			gamePane.moveToFront(gamePanel);
+			gamePane.moveToBack(startScreen);
 		}
+		else if(e.getSource() == yesInput){
+
+		}
+		else if(e.getSource() == noInput){
+
+		}
+		else if(e.getSource() == afterInputButton){
+			if(inputField.getText() == ""){
+				//make error box and reprompt
+			}
+			gamePane.moveToFront(gamePanel);
+			gamePane.moveToBack(inputScreen);
+			afterInputButton.setEnabled(false);
+			//turn off radio buttons
+			//turn on right at declaring so it can loop program
+		}
+		
+	}
+	public void turnOffStartButton(){
+		startButton.setEnabled(false);
+	}
+	public void turnOnStartButton(){
+		startButton.setEnabled(true);
+	}
+}
+
+public class HangMan{
+	public static void main(String[] args){
+		HangManMethods hmm = new HangManMethods();
+
 	}
 }
