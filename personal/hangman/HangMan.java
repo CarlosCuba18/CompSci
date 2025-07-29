@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.FlowLayout; //so it works with resiable window
+import java.awt.GridLayout;
 import javax.swing.JRadioButton; //ask for input or not
 import javax.swing.ButtonGroup;
 import javax.swing.JTextField;
@@ -25,6 +26,7 @@ import javax.swing.BorderFactory;
 
 
 class HangManMethods implements ActionListener{
+	Character[] buttonAlphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	JFrame frame = new JFrame();
 	JLayeredPane gamePane = new JLayeredPane();
 	JPanel startScreen = new JPanel();
@@ -35,14 +37,29 @@ class HangManMethods implements ActionListener{
 	JPanel lettersPanel = new JPanel();
 	JPanel wordPanel = new JPanel();
 	JLabel currentPhrase = new JLabel();
-	JTextField inputField;
-	String inputFieldString="";
-
-	JButton startButton = new JButton();
 	JButton[] buttons = new JButton[26]; //enchanced for-loop to declare each button with letter; buttons[i] = new JButton(currChar); w/ panel.add(buttons[i]);
+	int buttonsIndex = 0;
+
+	//image for start screen
+	//maybe image for background
+	JButton startButton = new JButton();
+
+	JTextField inputField;
+	String inputFieldString = "";
+	boolean input = true;
 	JRadioButton yesInput;
 	JRadioButton noInput;
 	JButton afterInputButton;
+
+	Set<Character> alphabet = Set.of('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+	String selectedString;
+	Scanner scan = new Scanner(System.in);///////////////////////////////////////////////
+	String hiddenString;
+	Set<Character> answerSet;
+	Set<Character> inputSet = new HashSet<>();
+	int incorrect = 0;
+	String scannedString;
+	Character myChar;
 
 
 	HangManMethods(){
@@ -79,6 +96,7 @@ class HangManMethods implements ActionListener{
 		startScreen.add(startButton);
 
 ////////All input screen components/////////////////////////////////////
+		inputScreen.setVisible(false);
 		inputScreen.setOpaque(true);
 		inputScreen.setLayout(null);
 		inputScreen.setBounds(0,0,1500,1100);
@@ -114,6 +132,7 @@ class HangManMethods implements ActionListener{
 
 
 ////////All game screen components//////////////////////////////////////
+		gamePanel.setVisible(false);
 		gamePanel.setOpaque(true);
 		gamePanel.setLayout(null);
 		gamePanel.setBounds(0,0,1500,1100);
@@ -124,39 +143,138 @@ class HangManMethods implements ActionListener{
 		hangManPanel.setBackground(Color.red);
 		hangManPanel.setBounds(100,50,400,400);
 		gamePanel.add(hangManPanel);
+		//graphics stuff
 
 		wordPanel.setOpaque(true);
 		wordPanel.setBackground(Color.orange);
 		wordPanel.setBounds(700,50,600,400);
+		wordPanel.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 		//fix font
+		//currentPhrase.setText(hiddenString);
 		wordPanel.add(currentPhrase);
 		gamePanel.add(wordPanel);
+		//use methods to put hidden phrase
 
 		lettersPanel.setOpaque(true);
 		lettersPanel.setBackground(Color.yellow);
+		lettersPanel.setLayout(new GridLayout(2,13,10,10));
+		for(char c : buttonAlphabet){
+			buttons[buttonsIndex] = new JButton(String.valueOf(c));
+			buttons[buttonsIndex].addActionListener(this);
+			//set Font for each letter
+			//make method that makes the button change color if right or wrong and make it unusable
+			lettersPanel.add(buttons[buttonsIndex]);
+		}
+
 		lettersPanel.setBounds(100,550,1200,400);
 		gamePanel.add(lettersPanel);
+
+
+
 
 ///////////////////////////////////////////////////////////////////////
 
 		//moveToFront(Comp),moveToBack(Comp)
 
-		gamePane.moveToFront(inputScreen);
-		turnOffStartButton();
+		gamePane.moveToFront(startScreen);
 		frame.setVisible(true);
 
 	}//end of constructor
 
+	//make game class with main process
+
+	private String select(){
+		//have this be the opening of new page, pressing play and opening new frame asking using radio button to ask for input or use a preloaded one
+
+		//String selectedString;
+
+		loadFile();
+
+		String[] loadedStrings = loadFile();
+		final int arraySize = loadedStrings.length;
+
+		Random random = new Random();
+		int index = random.nextInt(arraySize);
+
+		//selectedString = loadedStrings[index].toLowerCase();
+
+		return loadedStrings[index].toLowerCase();
+	}
+
+	private String[] loadFile(){
+		ArrayList<String> list = new ArrayList<>();
+		String str = "";
+
+		try{
+			File file = new File("Random.txt");
+			Scanner scan = new Scanner(file);
+
+			while(scan.hasNext()){
+				str = scan.nextLine();
+				str.trim();
+				list.add(str);
+			}
+
+		}
+		catch(Exception fnf){
+		}
+
+		return list.toArray(new String[0]);
+	}
+
+	private String hide(String str){
+		char[] c = str.toCharArray();
+		String value = "";
+
+		for(char x:c){
+			if(x == ' '){
+				value = value + " ";
+			}
+			else if(x == '\''){
+				value = value + "'";
+			}
+			else{
+				value = value + "_";
+			}
+		}
+		return value;
+	}
+
+	private Set<Character> createAnswerSet(String str){
+		char[] c = str.toCharArray();
+		Set<Character> answer = new HashSet<>();
+
+		for(char x:c){
+			if(x == ' '){
+				continue;
+			}
+			answer.add(Character.toLowerCase(x));
+		}
+		return answer;
+	}
+
+	private String reveal(String str, Set<Character> answer, Set<Character> input){ 
+		char[] strArray = str.toCharArray();
+		String newString = "";
+
+		for(Character c:strArray){
+			if(c == ' '){
+				newString = newString + " ";
+			}
+			else if(c == '\''){
+				newString = newString + "'";
+			}
+			else if(answer.contains(c) && input.contains(c)){
+				newString = newString + c;
+			}
+			else{
+				newString = newString + "_";
+			}
+		}
+		return newString;
+	}
+
 	/*
-		Set<Character> alphabet = Set.of('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
-		String selectedString = select();
-		Scanner scan = new Scanner(System.in);
-		String hiddenString = hide(selectedString);
-		Set<Character> answerSet = createAnswerSet(selectedString);
-		Set<Character> inputSet = new HashSet<>();
-		int incorrect = 0;
-		String scannedString;
-		Character myChar;
 
 		while(incorrect < 7){
 			for(;;){
@@ -204,104 +322,7 @@ class HangManMethods implements ActionListener{
 		scan.close();
 	}//end of main
 
-	private static String select(){
-		//have this be the opening of new page, pressing play and opening new frame asking using radio button to ask for input or use a preloaded one
-
-		String selectedString;
-		String input = "";
-		Scanner scanner = new Scanner(System.in);
-
-		System.out.println("What do you want to solve?");
-		input = scanner.nextLine();
-		input.trim();
-		if(input != ""){
-			selectedString = input.toLowerCase();
-			return selectedString;
-		}
-		else{
-			String[] loadedStrings = loadFile();
-			final int arraySize = loadedStrings.length;
-			Random random = new Random();
-			int index = random.nextInt(arraySize);
-			selectedString = loadedStrings[index].toLowerCase();
-		}
-		return selectedString;
-	}
-
-	private static String[] loadFile(){
-		ArrayList<String> list = new ArrayList<>();
-		String str = "";
-
-		try{
-			File file = new File("Random.txt");
-			Scanner scan = new Scanner(file);
-
-			while(scan.hasNext()){
-				str = scan.nextLine();
-				str.trim();
-				list.add(str);
-			}
-
-		}
-		catch(Exception fnf){
-		}
-
-		return list.toArray(new String[0]);
-	}
-
-	private static String hide(String str){
-		char[] c = str.toCharArray();
-		String value = "";
-
-		for(char x:c){
-			if(x == ' '){
-				value = value + " ";
-			}
-			else if(x == '\''){
-				value = value + "'";
-			}
-			else{
-				value = value + "_";
-			}
-		}
-		return value;
-	}
-
-	private static Set<Character> createAnswerSet(String str){
-		char[] c = str.toCharArray();
-		Set<Character> answer = new HashSet<>();
-
-		for(char x:c){
-			if(x == ' '){
-				continue;
-			}
-			answer.add(Character.toLowerCase(x));
-		}
-		return answer;
-	}
-
-	private static String reveal(String str, Set<Character> answer, Set<Character> input){ 
-		char[] strArray = str.toCharArray();
-		String newString = "";
-
-		for(Character c:strArray){
-			if(c == ' '){
-				newString = newString + " ";
-			}
-			else if(c == '\''){
-				newString = newString + "'";
-			}
-			else if(answer.contains(c) && input.contains(c)){
-				newString = newString + c;
-			}
-			else{
-				newString = newString + "_";
-			}
-		}
-		return newString;
-	}
-
-	private static void printStickMan(int x){
+	private void printStickMan(int x){
 		if(x == 0){
 			System.out.println("");
 			System.out.println(" /--|   ");
@@ -387,39 +408,56 @@ class HangManMethods implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e){
-		boolean input; //fix it declearing after each press
-		String str = inputField.getText();
+		JButton pressed = (JButton) e.getSource();
+		//doesnt work for radio button
+		//maybe instanceOf ot check when it is accepted
 
 		if(e.getSource() == startButton){
 			turnOffStartButton();
 			gamePane.moveToFront(gamePanel);
 			gamePane.moveToBack(startScreen);
+			startScreen.setVisible(false);
+			inputScreen.setVisible(true);
 		}
 		else if(e.getSource() == yesInput){
 			input = true;
-			System.out.println(input);
 		}
 		else if(e.getSource() == noInput){
 			input = false;
-			System.out.println(input);
 		}
 		else if(e.getSource() == afterInputButton){
 
-			if(input == true && str.equals("")){
+			if(input && inputField.getText().equals("")){
 				JOptionPane.showMessageDialog(inputField,"Please insert text or select preloaded button","Error",JOptionPane.ERROR_MESSAGE);
 			}
 			else{
+				if(input){
+					selectedString = inputField.getText();
+				}
+				else{
+					selectedString = select();
+				}
+				hiddenString = hide(selectedString);
+				answerSet = createAnswerSet(selectedString);
+				currentPhrase.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
+				currentPhrase.setFont(new Font("Comic Sans",Font.PLAIN,70)); //try to find font or way to make spaces between __
+				currentPhrase.setPreferredSize(new Dimension(600,400));
+				currentPhrase.setText("<html>" + hiddenString + "</html>");
+
 				gamePane.moveToFront(gamePanel);
 				gamePane.moveToBack(inputScreen);
 				inputScreen.setVisible(false);
+				gamePanel.setVisible(true);
 				afterInputButton.setEnabled(false);
 				//afterInputButton.setVisible(false);
 				yesInput.setEnabled(false);
 				noInput.setEnabled(false);
 				inputField.setEditable(false);
+
 				//turn on right at declaring so it can loop program
 			}
 		}
+
 	}
 		
 	public void turnOffStartButton(){
