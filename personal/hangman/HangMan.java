@@ -160,7 +160,7 @@ class HangManMethods implements ActionListener{
 		lettersPanel.setLayout(new GridLayout(2,13,10,10));
 		for(char c : buttonAlphabet){
 			buttons[buttonsIndex] = new JButton(String.valueOf(c));
-			buttons[buttonsIndex].addActionListener(this);
+			buttons[buttonsIndex].addActionListener(new ButtonArrayListener());
 			//set Font for each letter
 			//make method that makes the button change color if right or wrong and make it unusable
 			lettersPanel.add(buttons[buttonsIndex]);
@@ -408,10 +408,6 @@ class HangManMethods implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e){
-		JButton pressed = (JButton) e.getSource();
-		//doesnt work for radio button
-		//maybe instanceOf ot check when it is accepted
-
 		if(e.getSource() == startButton){
 			turnOffStartButton();
 			gamePane.moveToFront(gamePanel);
@@ -426,7 +422,6 @@ class HangManMethods implements ActionListener{
 			input = false;
 		}
 		else if(e.getSource() == afterInputButton){
-
 			if(input && inputField.getText().equals("")){
 				JOptionPane.showMessageDialog(inputField,"Please insert text or select preloaded button","Error",JOptionPane.ERROR_MESSAGE);
 			}
@@ -457,7 +452,7 @@ class HangManMethods implements ActionListener{
 				//turn on right at declaring so it can loop program
 			}
 		}
-
+		else{}	
 	}
 		
 	public void turnOffStartButton(){
@@ -467,6 +462,55 @@ class HangManMethods implements ActionListener{
 		startButton.setEnabled(true);
 	}
 	//turn on/off all 3 screens methods
+///////////////////////////////////////////////////////////////////////////////////////
+	private class ButtonArrayListener implements ActionListener{
+		ButtonArrayListener(){
+			//pass in current button in constuctor???
+		}
+
+		private JButton findButton(String ch){
+			//cycle through buttons with getText
+			String str;
+			for(JButton o:buttons){
+				str = o.getText();
+				if(ch.equals(str)){
+					return o;
+				}
+
+			}
+			return null;
+		}
+
+		private void setButtonRed(JButton button){
+			System.out.println(button.getText());
+			button.setBackground(Color.red);
+			button.setEnabled(false);
+		}
+
+		private void setButtonGreen(JButton button){
+			System.out.println(button.getText());
+			button.setBackground(Color.green);
+			button.setEnabled(false);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e){
+			JButton source = (JButton) e.getSource();
+			String c = source.getText();
+			Character ch = c.charAt(0);
+			source = findButton(c);
+
+			if(answerSet.contains(ch)){
+				setButtonGreen(source);
+			}
+			else{
+				setButtonRed(source);
+			}
+			System.out.println(source.getText());
+		}
+
+	}
+//////////////////////////////////////////////////////////////////////////////////////////
 }//end of class
 
 public class HangMan{
