@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
-
 import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JPanel; //draw hangman w/ graphics
@@ -23,6 +22,10 @@ import javax.swing.JTextField;
 import javax.swing.JOptionPane;//use for erros such as "already inputted" or "not a letter"
 import javax.swing.JLayeredPane;
 import javax.swing.BorderFactory;
+import javax.swing.border.LineBorder;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 
 
 class HangManMethods implements ActionListener{
@@ -32,8 +35,16 @@ class HangManMethods implements ActionListener{
 	JPanel startScreen = new JPanel();
 	JPanel inputScreen = new JPanel();
 	JPanel gamePanel = new JPanel();
+	Color backgroundColor = Color.decode("#1e599c");
+	Color buttonColor = Color.decode("#0e75eb");
+	Color textFieldColor = Color.decode("#0588fa");
+	Color textColor = Color.decode("#012d6e");
+	Color textFieldBorder = Color.decode("#003866");
+	LineBorder border = new LineBorder(textFieldBorder,5);
+	Color wrongColor = Color.decode("#611401");
+	Color rightColor = Color.decode("#02662c");
 
-	JPanel hangManPanel = new JPanel();
+	PaintPanel hangManPanel = new PaintPanel();
 	JPanel lettersPanel = new JPanel();
 	JPanel wordPanel = new JPanel();
 	JLabel currentPhrase = new JLabel();
@@ -47,19 +58,20 @@ class HangManMethods implements ActionListener{
 	JTextField inputField;
 	String inputFieldString = "";
 	boolean input = true;
+	boolean radioButtonsPressed = false;
 	JRadioButton yesInput;
 	JRadioButton noInput;
 	JButton afterInputButton;
 
 	Set<Character> alphabet = Set.of('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
 	String selectedString;
-	Scanner scan = new Scanner(System.in);///////////////////////////////////////////////
 	String hiddenString;
 	Set<Character> answerSet;
 	Set<Character> inputSet = new HashSet<>();
 	int incorrect = 0;
 	String scannedString;
 	Character myChar;
+	int exitInt = -1;
 
 
 	HangManMethods(){
@@ -81,7 +93,7 @@ class HangManMethods implements ActionListener{
 		startScreen.setOpaque(true);
 		startScreen.setLayout(null);
 		startScreen.setBounds(0,0,1500,1100);
-		startScreen.setBackground(Color.pink);
+		startScreen.setBackground(backgroundColor);
 		gamePane.add(startScreen);
 
 		startButton.setBounds(450,600,500,300);
@@ -91,8 +103,8 @@ class HangManMethods implements ActionListener{
 		startButton.setFocusable(false);
 		startButton.setFont(new Font("Comic Sans", Font.BOLD,50));
 		startButton.setForeground(Color.black); //color of text
-		startButton.setBackground(Color.lightGray); //color of button
-		startButton.setBorder(BorderFactory.createEtchedBorder());
+		startButton.setBackground(buttonColor); //color of button
+		startButton.setBorder(border);
 		startScreen.add(startButton);
 
 ////////All input screen components/////////////////////////////////////
@@ -100,11 +112,19 @@ class HangManMethods implements ActionListener{
 		inputScreen.setOpaque(true);
 		inputScreen.setLayout(null);
 		inputScreen.setBounds(0,0,1500,1100);
-		inputScreen.setBackground(Color.green);
+		inputScreen.setBackground(backgroundColor);
 		gamePane.add(inputScreen);
 
 		yesInput = new JRadioButton("Let me pick my own phrase");
+		yesInput.setBackground(buttonColor);
+		yesInput.setFocusable(false);
+		yesInput.setBorder(border);
+
 		noInput = new JRadioButton("Give me a phrase to guess");
+		noInput.setBackground(buttonColor);
+		noInput.setFocusable(false);
+		noInput.setBorder(border);
+
 		ButtonGroup group = new ButtonGroup();
 		group.add(yesInput);
 		group.add(noInput);
@@ -123,11 +143,16 @@ class HangManMethods implements ActionListener{
 		inputField.setBounds(120,200,1200,300);
 		inputField.setFont(new Font("Comic Sans",Font.PLAIN,60));
 		inputField.setText("");
+		inputField.setBackground(textFieldColor);
+		inputField.setForeground(textColor);
+		inputField.setBorder(border);
 		inputScreen.add(inputField);
 
 		afterInputButton = new JButton("Continue");
 		afterInputButton.setBounds(1120,900,300,100);
 		afterInputButton.addActionListener(this);
+		afterInputButton.setBackground(buttonColor);
+		afterInputButton.setBorder(border);
 		inputScreen.add(afterInputButton);
 
 
@@ -136,58 +161,50 @@ class HangManMethods implements ActionListener{
 		gamePanel.setOpaque(true);
 		gamePanel.setLayout(null);
 		gamePanel.setBounds(0,0,1500,1100);
-		gamePanel.setBackground(Color.blue);
+		gamePanel.setBackground(backgroundColor);
 		gamePane.add(gamePanel);
 
 		hangManPanel.setOpaque(true);
-		hangManPanel.setBackground(Color.red);
+		hangManPanel.setBackground(textFieldColor);
 		hangManPanel.setBounds(100,50,400,400);
 		gamePanel.add(hangManPanel);
-		//graphics stuff
 
 		wordPanel.setOpaque(true);
-		wordPanel.setBackground(Color.orange);
+		wordPanel.setBackground(textFieldColor);
 		wordPanel.setBounds(700,50,600,400);
-		wordPanel.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
-		//fix font
-		//currentPhrase.setText(hiddenString);
+		wordPanel.setBorder(border);
+		currentPhrase.setVerticalAlignment(JLabel.CENTER);
+		currentPhrase.setHorizontalAlignment(JLabel.CENTER);
+		currentPhrase.setFont(new Font("Comic Sans",Font.PLAIN,70)); //try to find font or way to make spaces between __
+		currentPhrase.setPreferredSize(new Dimension(600,400));
+		currentPhrase.setForeground(textColor);
 		wordPanel.add(currentPhrase);
 		gamePanel.add(wordPanel);
-		//use methods to put hidden phrase
 
 		lettersPanel.setOpaque(true);
-		lettersPanel.setBackground(Color.yellow);
+		lettersPanel.setBackground(textFieldColor);
+		lettersPanel.setBorder(border);
 		lettersPanel.setLayout(new GridLayout(2,13,10,10));
 		for(char c : buttonAlphabet){
 			buttons[buttonsIndex] = new JButton(String.valueOf(c));
-			buttons[buttonsIndex].addActionListener(new ButtonArrayListener());
-			//set Font for each letter
-			//make method that makes the button change color if right or wrong and make it unusable
+			buttons[buttonsIndex].addActionListener(new ButtonArrayListener(buttons[buttonsIndex]));
+			buttons[buttonsIndex].setFont(new Font("Comic Sans",Font.BOLD,40));
 			lettersPanel.add(buttons[buttonsIndex]);
+			buttons[buttonsIndex].setBackground(buttonColor);
+			buttons[buttonsIndex].setForeground(textColor);
+			buttons[buttonsIndex].setFocusable(false);
+			buttonsIndex++;
 		}
 
 		lettersPanel.setBounds(100,550,1200,400);
 		gamePanel.add(lettersPanel);
-
-
-
-
 ///////////////////////////////////////////////////////////////////////
-
-		//moveToFront(Comp),moveToBack(Comp)
 
 		gamePane.moveToFront(startScreen);
 		frame.setVisible(true);
-
 	}//end of constructor
 
-	//make game class with main process
-
 	private String select(){
-		//have this be the opening of new page, pressing play and opening new frame asking using radio button to ask for input or use a preloaded one
-
-		//String selectedString;
-
 		loadFile();
 
 		String[] loadedStrings = loadFile();
@@ -195,8 +212,6 @@ class HangManMethods implements ActionListener{
 
 		Random random = new Random();
 		int index = random.nextInt(arraySize);
-
-		//selectedString = loadedStrings[index].toLowerCase();
 
 		return loadedStrings[index].toLowerCase();
 	}
@@ -214,7 +229,7 @@ class HangManMethods implements ActionListener{
 				str.trim();
 				list.add(str);
 			}
-
+			scan.close();
 		}
 		catch(Exception fnf){
 		}
@@ -232,6 +247,9 @@ class HangManMethods implements ActionListener{
 			}
 			else if(x == '\''){
 				value = value + "'";
+			}
+			else if(x == ','){
+				value = value + ",";
 			}
 			else{
 				value = value + "_";
@@ -264,6 +282,9 @@ class HangManMethods implements ActionListener{
 			else if(c == '\''){
 				newString = newString + "'";
 			}
+			else if(c == ','){
+				newString = newString + ",";
+			}
 			else if(answer.contains(c) && input.contains(c)){
 				newString = newString + c;
 			}
@@ -274,142 +295,10 @@ class HangManMethods implements ActionListener{
 		return newString;
 	}
 
-	/*
-
-		while(incorrect < 7){
-			for(;;){
-				printStickMan(incorrect);
-				System.out.println(hiddenString);
-				System.out.println("Set: ");
-				for(Character c:inputSet){
-					System.out.print(c + " ");
-				}
-				System.out.println();
-
-				System.out.println("Insert a letter: ");
-				scannedString = scan.next();
-				scannedString.trim();
-				myChar = scannedString.charAt(0);
-
-				if(scannedString.length() <= 1 && alphabet.contains(myChar)){ //its a char
-					if(inputSet.contains(myChar)){
-						System.out.println("You already put that");
-						break;
-					}
-					inputSet.add(Character.toLowerCase(myChar));
-					if(!answerSet.contains(myChar)){ //its wrong
-						incorrect++;
-						System.out.println("Wrong :<, incorrect: " + incorrect);
-						//System.out.println(hiddenString);
-						break;
-					}
-					else{ //its right
-						hiddenString = reveal(selectedString,answerSet,inputSet);
-						//System.out.println(hiddenString);
-						if(hiddenString.indexOf("_") == -1) {
-							System.out.println("You win :), it was: " + hiddenString);
-							System.exit(0);
-						}
-					}
-				}//end of if
-				else{
-					System.out.println("Thats not a char >:(");
-				}
-			}//end of infinite for loop
-		}//end of while
-
-		System.out.println("Sorry, it was: " + selectedString);
-		scan.close();
-	}//end of main
-
-	private void printStickMan(int x){
-		if(x == 0){
-			System.out.println("");
-			System.out.println(" /--|   ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println("_|______");
-		}
-		else if(x == 1){
-			System.out.println("");
-			System.out.println(" /--|   ");
-			System.out.println(" |  O   ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println("_|______");
-		}
-		else if(x == 2){
-			System.out.println("");
-			System.out.println(" /--|   ");
-			System.out.println(" |  O   ");
-			System.out.println(" |  |   ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println("_|______");
-		}
-		else if(x == 3){
-			System.out.println("");
-			System.out.println(" /--|   ");
-			System.out.println(" |  O   ");
-			System.out.println(" |  |   ");
-			System.out.println(" |  |   ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println("_|______");
-		}
-		else if(x == 4){
-			System.out.println("");
-			System.out.println(" /--|   ");
-			System.out.println(" |  O   ");
-			System.out.println(" | /|   ");
-			System.out.println(" |  |   ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println("_|______");
-		}
-		else if(x == 5){
-			System.out.println("");
-			System.out.println(" /--|   ");
-			System.out.println(" |  O   ");
-			System.out.println(" | /|\\ ");
-			System.out.println(" |  |   ");
-			System.out.println(" |      ");
-			System.out.println(" |      ");
-			System.out.println("_|______");
-		}
-		else if(x == 6){
-			System.out.println("");
-			System.out.println(" /--|   ");
-			System.out.println(" |  O   ");
-			System.out.println(" | /|\\ ");
-			System.out.println(" |  |   ");
-			System.out.println(" | /    ");
-			System.out.println(" |      ");
-			System.out.println("_|______");
-		}
-		else if(x == 7){
-			System.out.println("");
-			System.out.println(" /--|   ");
-			System.out.println(" |  O   ");
-			System.out.println(" | /|\\ ");
-			System.out.println(" |  |   ");
-			System.out.println(" | / \\ ");
-			System.out.println(" |      ");
-			System.out.println("_|______");
-		}
-	}
-	*/
-
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == startButton){
-			turnOffStartButton();
+			startButton.setEnabled(false);
 			gamePane.moveToFront(gamePanel);
 			gamePane.moveToBack(startScreen);
 			startScreen.setVisible(false);
@@ -417,26 +306,28 @@ class HangManMethods implements ActionListener{
 		}
 		else if(e.getSource() == yesInput){
 			input = true;
+			radioButtonsPressed = true;
 		}
 		else if(e.getSource() == noInput){
 			input = false;
+			radioButtonsPressed = true;
 		}
 		else if(e.getSource() == afterInputButton){
-			if(input && inputField.getText().equals("")){
+			if(radioButtonsPressed == false){
+				JOptionPane.showMessageDialog(inputField,"Please select one of the 2 options.","Error",JOptionPane.ERROR_MESSAGE);	
+			}
+			else if(input && inputField.getText().equals("")){
 				JOptionPane.showMessageDialog(inputField,"Please insert text or select preloaded button","Error",JOptionPane.ERROR_MESSAGE);
 			}
 			else{
 				if(input){
-					selectedString = inputField.getText();
+					selectedString = inputField.getText().toLowerCase();
 				}
 				else{
 					selectedString = select();
 				}
 				hiddenString = hide(selectedString);
 				answerSet = createAnswerSet(selectedString);
-				currentPhrase.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
-				currentPhrase.setFont(new Font("Comic Sans",Font.PLAIN,70)); //try to find font or way to make spaces between __
-				currentPhrase.setPreferredSize(new Dimension(600,400));
 				currentPhrase.setText("<html>" + hiddenString + "</html>");
 
 				gamePane.moveToFront(gamePanel);
@@ -444,28 +335,88 @@ class HangManMethods implements ActionListener{
 				inputScreen.setVisible(false);
 				gamePanel.setVisible(true);
 				afterInputButton.setEnabled(false);
-				//afterInputButton.setVisible(false);
 				yesInput.setEnabled(false);
 				noInput.setEnabled(false);
 				inputField.setEditable(false);
-
-				//turn on right at declaring so it can loop program
 			}
+		}	
+	}
+	public void restart(){
+		select();
+		inputScreen.setVisible(true);
+		gamePanel.setVisible(false);
+		inputField.setEditable(true);
+		yesInput.setEnabled(true);
+		noInput.setEnabled(true);
+		afterInputButton.setEnabled(true);
+		gamePane.moveToFront(inputScreen);
+		gamePane.moveToBack(gamePanel);
+
+		for(JButton button:buttons){
+			button.setEnabled(true);
+			button.setBackground(buttonColor);
 		}
-		else{}	
+
+		exitInt = -1;
+		incorrect = 0;
+		radioButtonsPressed = false;
+		inputSet = new HashSet<>();
+		inputField.setText("");
 	}
-		
-	public void turnOffStartButton(){
-		startButton.setEnabled(false);
-	}
-	public void turnOnStartButton(){
-		startButton.setEnabled(true);
-	}
-	//turn on/off all 3 screens methods
+
 ///////////////////////////////////////////////////////////////////////////////////////
 	private class ButtonArrayListener implements ActionListener{
-		ButtonArrayListener(){
-			//pass in current button in constuctor???
+		JButton currButton;
+
+		ButtonArrayListener(JButton button){
+			currButton = button;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e){
+			String c = currButton.getText();
+			Character ch = c.charAt(0);
+
+			if(answerSet.contains(ch)){
+				setButtonGreen(currButton);
+				inputSet.add(ch);
+				hiddenString = reveal(selectedString,answerSet,inputSet);
+				currentPhrase.setText("<html>" + hiddenString + "</html>");
+				if(hiddenString.indexOf("_") == -1){//you won, prompt to restart
+					while(exitInt == -1){
+						exitInt = JOptionPane.showConfirmDialog(gamePanel,"Congrats, it was: " + selectedString + ". Play Again?","Congrats",JOptionPane.YES_NO_OPTION);
+						if(exitInt == 0){//yes
+							restart();
+							break;
+						}
+						else if(exitInt == 1){//no
+							System.exit(0);
+							break;
+						}
+					}//end of while
+				}//end of winning check
+			}
+			else{
+				setButtonRed(currButton);
+				inputSet.add(ch);
+				incorrect++;
+				hangManPanel.repaint();
+				//paint
+				if(incorrect == 7){//you lost, prompted to restart
+					while(exitInt == -1){
+						exitInt = JOptionPane.showConfirmDialog(gamePanel,"Sorry, the answer was: " + selectedString + ". Try Again?",":<",JOptionPane.YES_NO_OPTION);
+						if(exitInt == 0){//yes
+							restart();
+							break;
+						}
+						else if(exitInt == 1){//no
+							System.exit(0);
+							break;
+						}
+					}//end of while
+
+				}//end of losing check
+			}
 		}
 
 		private JButton findButton(String ch){
@@ -476,42 +427,74 @@ class HangManMethods implements ActionListener{
 				if(ch.equals(str)){
 					return o;
 				}
-
 			}
 			return null;
 		}
 
 		private void setButtonRed(JButton button){
-			System.out.println(button.getText());
-			button.setBackground(Color.red);
+			button.setBackground(wrongColor);
 			button.setEnabled(false);
 		}
 
 		private void setButtonGreen(JButton button){
-			System.out.println(button.getText());
-			button.setBackground(Color.green);
+			button.setBackground(rightColor);
 			button.setEnabled(false);
 		}
-
-		@Override
-		public void actionPerformed(ActionEvent e){
-			JButton source = (JButton) e.getSource();
-			String c = source.getText();
-			Character ch = c.charAt(0);
-			source = findButton(c);
-
-			if(answerSet.contains(ch)){
-				setButtonGreen(source);
-			}
-			else{
-				setButtonRed(source);
-			}
-			System.out.println(source.getText());
+	}// end of inner class
+//////////////////////////////////////////////////////////////////////////////////////
+	private class PaintPanel extends JPanel{
+		PaintPanel(){
+			this.setOpaque(true);
+			this.setBackground(Color.red);
+			this.setBounds(100,50,400,400);
 		}
+		public void paint(Graphics g){
+			Graphics2D g2D = (Graphics2D) g;
+			//setting color and drawing hangpost
+			g2D.setPaint(textColor);
+			g2D.setStroke(new BasicStroke(10));
+			g2D.drawLine(0,400,400,400);
+			g2D.setStroke(new BasicStroke(5));
+			g2D.drawLine(100,400,100,50);
+			g2D.drawLine(100,50,300,50);
+			g2D.drawLine(300,50,300,100);
 
-	}
+			if(incorrect == 1){
+				//1(head)
+				g2D.drawArc(250,100,100,100,0,180);
+				g2D.drawArc(250,100,100,100,180,180);
+			}
+			else if(incorrect == 2){
+				//2(body)
+				g2D.drawLine(300,200,300,300);
+			}
+			else if(incorrect == 3){
+				//3(arm1)
+				g2D.drawLine(300,220,350,260);
+			}
+			else if(incorrect == 4){
+				//4(arm2)
+				g2D.drawLine(300,220,250,260);	
+			}
+			else if(incorrect == 5){
+				//5(leg1)
+				g2D.drawLine(300,300,340,380);
+			}
+			else if(incorrect == 6){
+				//6(leg2)
+				g2D.drawLine(300,300,260,380);
+			}
+			else if(incorrect == 7){
+				//7(ded)
+				g2D.drawLine(270,140,280,130);
+				g2D.drawLine(280,140,270,130);
+				g2D.drawLine(320,140,330,130);
+				g2D.drawLine(330,140,320,130);
+			}
+		}
+	}//end of inner class
 //////////////////////////////////////////////////////////////////////////////////////////
-}//end of class
+}//end of outer class
 
 public class HangMan{
 	public static void main(String[] args){

@@ -48,7 +48,7 @@ public class TwoDPanel extends JPanel{
 
 		/*
 		g2D.setFont(new Font("Ink Free",Font.BOLD,25));
-		g2D.drawString("You are a winner",50,50); //uses bottom left as reference pnt, so if 0,0 its of screen
+		g2D.drawString("You are a winner",50,50); //uses bottom left as reference pnt, so if 0,0 its off screen
 		*/
 	}
 }//end of class
