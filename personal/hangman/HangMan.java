@@ -257,6 +257,7 @@ class HangManMethods implements ActionListener{
 		}
 		return value;
 	}
+//make method that shows amount of letters per word////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private Set<Character> createAnswerSet(String str){
 		char[] c = str.toCharArray();
@@ -327,6 +328,7 @@ class HangManMethods implements ActionListener{
 					selectedString = select();
 				}
 				hiddenString = hide(selectedString);
+				//make method that shows amount of letters per word////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				answerSet = createAnswerSet(selectedString);
 				currentPhrase.setText("<html>" + hiddenString + "</html>");
 
@@ -342,7 +344,6 @@ class HangManMethods implements ActionListener{
 		}	
 	}
 	public void restart(){
-		select();
 		inputScreen.setVisible(true);
 		gamePanel.setVisible(false);
 		inputField.setEditable(true);
