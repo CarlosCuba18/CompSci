@@ -29,48 +29,58 @@ import java.awt.BasicStroke;
 
 
 class HangManMethods implements ActionListener{
-	Character[] buttonAlphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+	
+	//IF MOVED SOMEWHERE, NEEDS "Random.txt" MOVED WITH IT TO HAVE PRELOADED PHRASES 
+
+	//overarching variables
 	JFrame frame = new JFrame();
 	JLayeredPane gamePane = new JLayeredPane();
-	JPanel startScreen = new JPanel();
-	JPanel inputScreen = new JPanel();
-	JPanel gamePanel = new JPanel();
 	Color backgroundColor = Color.decode("#1e599c");
 	Color buttonColor = Color.decode("#0e75eb");
 	Color textFieldColor = Color.decode("#0588fa");
 	Color textColor = Color.decode("#012d6e");
 	Color textFieldBorder = Color.decode("#003866");
-	LineBorder border = new LineBorder(textFieldBorder,5);
 	Color wrongColor = Color.decode("#611401");
 	Color rightColor = Color.decode("#02662c");
+	LineBorder border = new LineBorder(textFieldBorder,5);
+	LineBorder thickBorder = new LineBorder(textFieldBorder,10);
 
-	PaintPanel hangManPanel = new PaintPanel();
-	JPanel lettersPanel = new JPanel();
-	JPanel wordPanel = new JPanel();
-	JLabel currentPhrase = new JLabel();
-	JButton[] buttons = new JButton[26]; //enchanced for-loop to declare each button with letter; buttons[i] = new JButton(currChar); w/ panel.add(buttons[i]);
-	int buttonsIndex = 0;
-
-	//image for start screen
-	//maybe image for background
+	//start screen components
+	JPanel startScreen = new JPanel();
+	JPanel titlePanel = new JPanel();
+	JLabel title = new JLabel("Hangman");
+	JLabel credit = new JLabel("By: Carlos Cuba");
 	JButton startButton = new JButton();
 
+	//input screen components
+	JPanel inputScreen = new JPanel();
 	JTextField inputField;
-	String inputFieldString = "";
 	boolean input = true;
 	boolean radioButtonsPressed = false;
 	JRadioButton yesInput;
 	JRadioButton noInput;
 	JButton afterInputButton;
 
+	//gameplay components
+	JPanel gamePanel = new JPanel();
+	PaintPanel hangManPanel = new PaintPanel();
+	JPanel lettersPanel = new JPanel();
+	JPanel wordPanel = new JPanel();
+	JLabel currentPhrase = new JLabel();
+	JLabel numsLabel = new JLabel();
+	JButton[] buttons = new JButton[26]; //enchanced for-loop to declare each button with letter; buttons[i] = new JButton(currChar); w/ panel.add(buttons[i]);
+	Character[] buttonAlphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+	int buttonsIndex = 0;
+	Object[] numOfLetterPerWord;
+
+	//variables for game
 	Set<Character> alphabet = Set.of('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+	Set <Character> otherAcceptedChars = Set.of(',' , '.' , '!' , '?' , '-' , ' ', '\'');
 	String selectedString;
 	String hiddenString;
 	Set<Character> answerSet;
 	Set<Character> inputSet = new HashSet<>();
 	int incorrect = 0;
-	String scannedString;
-	Character myChar;
 	int exitInt = -1;
 
 
@@ -95,6 +105,27 @@ class HangManMethods implements ActionListener{
 		startScreen.setBounds(0,0,1500,1100);
 		startScreen.setBackground(backgroundColor);
 		gamePane.add(startScreen);
+
+
+		titlePanel.setOpaque(true);
+		titlePanel.setLayout(null);
+		titlePanel.setBounds(200,100,1000,400);
+		titlePanel.setBackground(textFieldColor);
+		titlePanel.setBorder(thickBorder);
+
+		title.setBounds(0,0,1000,250);
+		title.setFont(new Font("Comic Sans", Font.BOLD,120));
+		title.setForeground(textColor);
+		title.setHorizontalAlignment(JLabel.CENTER);
+
+		credit.setBounds(0,250,1000,50);
+		credit.setFont(new Font("Comic Sans", Font.BOLD,40));
+		credit.setForeground(textColor);
+		credit.setHorizontalAlignment(JLabel.CENTER);
+		
+		titlePanel.add(title);
+		titlePanel.add(credit);
+		startScreen.add(titlePanel);
 
 		startButton.setBounds(450,600,500,300);
 		startButton.setHorizontalTextPosition(JButton.CENTER);
@@ -181,6 +212,13 @@ class HangManMethods implements ActionListener{
 		wordPanel.add(currentPhrase);
 		gamePanel.add(wordPanel);
 
+		numsLabel.setBounds(700,450,600,100);
+		numsLabel.setBackground(backgroundColor);
+		numsLabel.setText("Letters Per Word: ");
+		numsLabel.setFont(new Font("Comic Sans",Font.BOLD,30));
+		numsLabel.setOpaque(true);
+		gamePanel.add(numsLabel);
+
 		lettersPanel.setOpaque(true);
 		lettersPanel.setBackground(textFieldColor);
 		lettersPanel.setBorder(border);
@@ -202,11 +240,71 @@ class HangManMethods implements ActionListener{
 
 		gamePane.moveToFront(startScreen);
 		frame.setVisible(true);
+
 	}//end of constructor
 
-	private String select(){
-		loadFile();
+	@Override
+	public void actionPerformed(ActionEvent e){
+		if(e.getSource() == startButton){
+			startButton.setEnabled(false);
+			gamePane.moveToFront(inputScreen);
+			gamePane.moveToBack(startScreen);
+			startScreen.setVisible(false);
+			inputScreen.setVisible(true);
+		}
+		else if(e.getSource() == yesInput){
+			input = true;
+			radioButtonsPressed = true;
+		}
+		else if(e.getSource() == noInput){
+			input = false;
+			radioButtonsPressed = true;
+		}
+		else if(e.getSource() == afterInputButton){
+			if(radioButtonsPressed == false){
+				JOptionPane.showMessageDialog(inputField,"Please select one of the 2 options.","Error",JOptionPane.ERROR_MESSAGE);	
+			}
+			else if(input && inputField.getText().trim().equals("")){
+				JOptionPane.showMessageDialog(inputField,"Please insert text or select preloaded button","Error",JOptionPane.ERROR_MESSAGE);
+			}
+			else if(HasIncorrectChars(inputField.getText().toLowerCase().trim())){
+				JOptionPane.showMessageDialog(inputField,"Please only use letters or the the following characters: , . ! ? ' -","Error",JOptionPane.ERROR_MESSAGE);
+			}
+			else if(input && NoLetters(inputField.getText().toLowerCase().trim())){
+				JOptionPane.showMessageDialog(inputField,"Please have atleast one letter in the answer","Error",JOptionPane.ERROR_MESSAGE);
+			}
+			else{
 
+				if(input){
+					selectedString = inputField.getText().toLowerCase();
+				}
+				else{
+					selectedString = select();
+				}
+
+				hiddenString = hide(selectedString);
+				numOfLetterPerWord = LettersPerWord(selectedString);
+
+				for(Object x:numOfLetterPerWord){
+					numsLabel.setText(numsLabel.getText() + x + " ");
+				}
+
+				answerSet = createAnswerSet(selectedString);
+				currentPhrase.setText("<html>" + hiddenString + "</html>");
+
+				gamePane.moveToFront(gamePanel);
+				gamePane.moveToBack(inputScreen);
+				inputScreen.setVisible(false);
+				gamePanel.setVisible(true);
+				afterInputButton.setEnabled(false);
+				yesInput.setEnabled(false);
+				noInput.setEnabled(false);
+				inputField.setEditable(false);
+			}
+		}	
+	}//end of actionPerformed
+
+	private String select(){
 		String[] loadedStrings = loadFile();
 		final int arraySize = loadedStrings.length;
 
@@ -232,6 +330,7 @@ class HangManMethods implements ActionListener{
 			scan.close();
 		}
 		catch(Exception fnf){
+			System.out.println("Can't Find File");
 		}
 
 		return list.toArray(new String[0]);
@@ -242,14 +341,8 @@ class HangManMethods implements ActionListener{
 		String value = "";
 
 		for(char x:c){
-			if(x == ' '){
-				value = value + " ";
-			}
-			else if(x == '\''){
-				value = value + "'";
-			}
-			else if(x == ','){
-				value = value + ",";
+			if(otherAcceptedChars.contains(x)){
+				value = value + x;
 			}
 			else{
 				value = value + "_";
@@ -257,7 +350,6 @@ class HangManMethods implements ActionListener{
 		}
 		return value;
 	}
-//make method that shows amount of letters per word////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private Set<Character> createAnswerSet(String str){
 		char[] c = str.toCharArray();
@@ -277,14 +369,8 @@ class HangManMethods implements ActionListener{
 		String newString = "";
 
 		for(Character c:strArray){
-			if(c == ' '){
-				newString = newString + " ";
-			}
-			else if(c == '\''){
-				newString = newString + "'";
-			}
-			else if(c == ','){
-				newString = newString + ",";
+			if(otherAcceptedChars.contains(c)){
+				newString = newString + c;
 			}
 			else if(answer.contains(c) && input.contains(c)){
 				newString = newString + c;
@@ -296,53 +382,53 @@ class HangManMethods implements ActionListener{
 		return newString;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e){
-		if(e.getSource() == startButton){
-			startButton.setEnabled(false);
-			gamePane.moveToFront(gamePanel);
-			gamePane.moveToBack(startScreen);
-			startScreen.setVisible(false);
-			inputScreen.setVisible(true);
-		}
-		else if(e.getSource() == yesInput){
-			input = true;
-			radioButtonsPressed = true;
-		}
-		else if(e.getSource() == noInput){
-			input = false;
-			radioButtonsPressed = true;
-		}
-		else if(e.getSource() == afterInputButton){
-			if(radioButtonsPressed == false){
-				JOptionPane.showMessageDialog(inputField,"Please select one of the 2 options.","Error",JOptionPane.ERROR_MESSAGE);	
+	public Object[] LettersPerWord(String str){
+		String currString;
+		Scanner scan = new Scanner(str);
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		int num;
+		char[] array;
+
+		while(scan.hasNext()){
+			currString = scan.next().toLowerCase();
+			num = currString.length();
+			array = currString.toCharArray();
+
+			for(char c:array){
+				if(!alphabet.contains(c)){
+					num--;
+				}
 			}
-			else if(input && inputField.getText().equals("")){
-				JOptionPane.showMessageDialog(inputField,"Please insert text or select preloaded button","Error",JOptionPane.ERROR_MESSAGE);
+
+			list.add(num);
+		}
+
+		return list.toArray();
+	}
+
+	public boolean HasIncorrectChars(String str){
+		char[] array = str.toCharArray();
+		for(Character c:array){
+			if(!(alphabet.contains(c) || otherAcceptedChars.contains(c))){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean NoLetters(String str){
+		char[] array = str.toCharArray();
+		for(Character c:array){
+			if(alphabet.contains(c)){
+				return false;
 			}
 			else{
-				if(input){
-					selectedString = inputField.getText().toLowerCase();
-				}
-				else{
-					selectedString = select();
-				}
-				hiddenString = hide(selectedString);
-				//make method that shows amount of letters per word////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				answerSet = createAnswerSet(selectedString);
-				currentPhrase.setText("<html>" + hiddenString + "</html>");
-
-				gamePane.moveToFront(gamePanel);
-				gamePane.moveToBack(inputScreen);
-				inputScreen.setVisible(false);
-				gamePanel.setVisible(true);
-				afterInputButton.setEnabled(false);
-				yesInput.setEnabled(false);
-				noInput.setEnabled(false);
-				inputField.setEditable(false);
+				continue;
 			}
-		}	
+		}
+		return true;
 	}
+
 	public void restart(){
 		inputScreen.setVisible(true);
 		gamePanel.setVisible(false);
@@ -360,9 +446,9 @@ class HangManMethods implements ActionListener{
 
 		exitInt = -1;
 		incorrect = 0;
-		radioButtonsPressed = false;
 		inputSet = new HashSet<>();
 		inputField.setText("");
+		numsLabel.setText("Letters Per Word: ");
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -441,7 +527,7 @@ class HangManMethods implements ActionListener{
 			button.setBackground(rightColor);
 			button.setEnabled(false);
 		}
-	}// end of inner class
+	}// end of ButtonArrayListener class
 //////////////////////////////////////////////////////////////////////////////////////
 	private class PaintPanel extends JPanel{
 		PaintPanel(){
@@ -493,9 +579,9 @@ class HangManMethods implements ActionListener{
 				g2D.drawLine(330,140,320,130);
 			}
 		}
-	}//end of inner class
+	}//end of PaintPanel class
 //////////////////////////////////////////////////////////////////////////////////////////
-}//end of outer class
+}//end of HangManMethods class
 
 public class HangMan{
 	public static void main(String[] args){
