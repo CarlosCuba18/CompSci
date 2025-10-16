@@ -90,11 +90,11 @@ class HangManMethods implements ActionListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(null);
 		frame.setResizable(false);
-		frame.setSize(1500,1100);
+		frame.setSize(1300,1000);
 		frame.setLocationRelativeTo(null);
 
 		//adding layered pane to frame
-		gamePane.setBounds(0,0,1500,1100);
+		gamePane.setBounds(0,0,1300,1000);
 		gamePane.setLayout(null);
 		frame.add(gamePane);
 
@@ -102,14 +102,14 @@ class HangManMethods implements ActionListener{
 ////////All start screen components/////////////////////////////////////
 		startScreen.setOpaque(true);
 		startScreen.setLayout(null);
-		startScreen.setBounds(0,0,1500,1100);
+		startScreen.setBounds(0,0,1300,1000);
 		startScreen.setBackground(backgroundColor);
 		gamePane.add(startScreen);
 
 
 		titlePanel.setOpaque(true);
 		titlePanel.setLayout(null);
-		titlePanel.setBounds(200,100,1000,400);
+		titlePanel.setBounds(100,100,1000,400);
 		titlePanel.setBackground(textFieldColor);
 		titlePanel.setBorder(thickBorder);
 
@@ -127,7 +127,7 @@ class HangManMethods implements ActionListener{
 		titlePanel.add(credit);
 		startScreen.add(titlePanel);
 
-		startButton.setBounds(450,600,500,300);
+		startButton.setBounds(350,600,500,300);
 		startButton.setHorizontalTextPosition(JButton.CENTER);
 		startButton.addActionListener(this);
 		startButton.setText("Start");
@@ -142,7 +142,7 @@ class HangManMethods implements ActionListener{
 		inputScreen.setVisible(false);
 		inputScreen.setOpaque(true);
 		inputScreen.setLayout(null);
-		inputScreen.setBounds(0,0,1500,1100);
+		inputScreen.setBounds(0,0,1300,1000);
 		inputScreen.setBackground(backgroundColor);
 		gamePane.add(inputScreen);
 
@@ -160,18 +160,18 @@ class HangManMethods implements ActionListener{
 		group.add(yesInput);
 		group.add(noInput);
 
-		yesInput.setBounds(120,700,500,100);
-		yesInput.setFont(new Font("Comic Sans",Font.BOLD,20));
+		yesInput.setBounds(50,500,500,100);
+		yesInput.setFont(new Font("Comic Sans",Font.BOLD,30));
 		yesInput.addActionListener(this);
 		inputScreen.add(yesInput);
 
-		noInput.setBounds(820,700,500,100);
+		noInput.setBounds(650,500,500,100);
 		noInput.addActionListener(this);
-		noInput.setFont(new Font("Comic Sans", Font.BOLD,20));
+		noInput.setFont(new Font("Comic Sans", Font.BOLD,30));
 		inputScreen.add(noInput);
 
 		inputField = new JTextField();
-		inputField.setBounds(120,200,1200,300);
+		inputField.setBounds(50,100,1100,300);
 		inputField.setFont(new Font("Comic Sans",Font.PLAIN,60));
 		inputField.setText("");
 		inputField.setBackground(textFieldColor);
@@ -180,7 +180,7 @@ class HangManMethods implements ActionListener{
 		inputScreen.add(inputField);
 
 		afterInputButton = new JButton("Continue");
-		afterInputButton.setBounds(1120,900,300,100);
+		afterInputButton.setBounds(900,800,300,100);
 		afterInputButton.addActionListener(this);
 		afterInputButton.setBackground(buttonColor);
 		afterInputButton.setBorder(border);
@@ -202,17 +202,17 @@ class HangManMethods implements ActionListener{
 
 		wordPanel.setOpaque(true);
 		wordPanel.setBackground(textFieldColor);
-		wordPanel.setBounds(700,50,600,400);
+		wordPanel.setBounds(600,50,600,400);
 		wordPanel.setBorder(border);
 		currentPhrase.setVerticalAlignment(JLabel.CENTER);
 		currentPhrase.setHorizontalAlignment(JLabel.CENTER);
-		currentPhrase.setFont(new Font("Comic Sans",Font.PLAIN,70)); //try to find font or way to make spaces between __
+		currentPhrase.setFont(new Font("Comic Sans",Font.PLAIN,70));
 		currentPhrase.setPreferredSize(new Dimension(600,400));
 		currentPhrase.setForeground(textColor);
 		wordPanel.add(currentPhrase);
 		gamePanel.add(wordPanel);
 
-		numsLabel.setBounds(700,450,600,100);
+		numsLabel.setBounds(600,450,600,100);
 		numsLabel.setBackground(backgroundColor);
 		numsLabel.setText("Letters Per Word: ");
 		numsLabel.setFont(new Font("Comic Sans",Font.BOLD,30));
@@ -226,7 +226,7 @@ class HangManMethods implements ActionListener{
 		for(char c : buttonAlphabet){
 			buttons[buttonsIndex] = new JButton(String.valueOf(c));
 			buttons[buttonsIndex].addActionListener(new ButtonArrayListener(buttons[buttonsIndex]));
-			buttons[buttonsIndex].setFont(new Font("Comic Sans",Font.BOLD,40));
+			buttons[buttonsIndex].setFont(new Font("Comic Sans",Font.BOLD,30));
 			lettersPanel.add(buttons[buttonsIndex]);
 			buttons[buttonsIndex].setBackground(buttonColor);
 			buttons[buttonsIndex].setForeground(textColor);
@@ -234,7 +234,7 @@ class HangManMethods implements ActionListener{
 			buttonsIndex++;
 		}
 
-		lettersPanel.setBounds(100,550,1200,400);
+		lettersPanel.setBounds(50,550,1100,350);
 		gamePanel.add(lettersPanel);
 ///////////////////////////////////////////////////////////////////////
 
@@ -402,7 +402,7 @@ class HangManMethods implements ActionListener{
 
 			list.add(num);
 		}
-
+		scan.close();
 		return list.toArray();
 	}
 
