@@ -240,7 +240,9 @@ public class MyFrame extends JFrame implements ActionListener{
 				screen.setText(currText);
 			}
 			else{
-				screen.setText(Double.toString(solve())); //try to restrain long values to beginning of text field
+				double solution = solve();
+				String strSolution = Double.toString(solution);
+				screen.setText(strSolution);
 				cursorPosistion = 0;
 				screen.setCaretPosition(cursorPosistion);	
 			}
